@@ -1,3 +1,4 @@
+@Asel (Aygün)
 Moin Liebe Leute,
 
 hier findet Ihr eine kleine Zussamenfassung von dem Projekt und deren Funktionen.
@@ -9,3 +10,12 @@ Ordnerstruktur:
     entspricht und konfigurationen für das aufpoppende Fenster einstellt.
 
 'core':
+    Hauptstelle für das programm. Hier laufen alle wichtigen Handlungen ab.
+
+    Noch sind nur 'MygdxGame' und 'Player wichtig'
+    Die anderen Klassen sind nur Hilfestellung gewesen.
+
+    'MyGdxgame' ist die Klasse die alles rendert und anzeigt.
+
+    In den Files werden noch weitere Kommentare sein.
+

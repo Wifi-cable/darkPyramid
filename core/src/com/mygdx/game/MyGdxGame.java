@@ -32,35 +32,51 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor {
     public TiledMapRenderer tiledmaprenderer;
     public OrthographicCamera camera;
 
-
-    public Rectangle rectangle;
-    private Random rand;
-
-
+    //@Asel
+    // for debug and manuel Map generation
     public boolean walls[][] = new boolean[20][15];
 
-
+    //@Asel
+    //this method run´s on the start of the programm
+    //it initializes our crucial objects for later use in
+    //the method render
     @Override
     public void create() {
 
+        //@Asel
+        //we create  a camera and set it on the center of the Game-Window
+        //The camera is what we see later
+        //Gdx is a static Class with Sub-Classes and methods for utility
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.update();
+
+        //@Asel
+        //load a tiled Map we created on 'Tiles' programm and also create
+        //a map Renderer for the tilemap
+        //Important: we created tiled maps with tiles who have the attribute
+        //"blocked" which serves as wall´s for later use
         tiledMap = new TmxMapLoader().load("assets/prototype2.tmx");
         tiledmaprenderer = new OrthogonalTiledMapRenderer(tiledMap);
 
-
-
+        //@Asel
+        //a buffer that let´s us draw
         batch = new SpriteBatch();
 
-
+        //@Asel
+        //drawing a pixmap for the charakter sprite
         Pixmap pix = new Pixmap(20, 20, Pixmap.Format.RGBA8888);
         pix.setColor(Color.GREEN);
         pix.fill();
+
+        //@Asel
+        //create a player figure with the pixmap we created(looks like  a  green blob)
+        //IMPORTANT: always .dispose() texture´s and pixmap´s after use!
         player = new Player(new Sprite(new Texture(pix)), (TiledMapTileLayer) tiledMap.getLayers().get(0));
         pix.dispose();
 
-
+        //@Asel
+        //this listen´s to keyboard Input´s and send´s it to the player object
         Gdx.input.setInputProcessor(player);
 
     }
@@ -71,24 +87,28 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor {
         player.getTexture().dispose();
     }
 
+
+    //@Asel
+    //this method is called constantly. It´s also extremely important
     @Override
     public void render() {
+
+        //@Asel
+        //Not that important, basic openGL configurations for Background,Alpha channels etc.
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glBlendFunc(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 
-
+        //@Asel
+        //render whatever the camera shows,
         camera.update();
         tiledmaprenderer.setView(camera);
         tiledmaprenderer.render();
 
-
+        //@Asel
+        //open the buffer and start drawing
         batch.begin();
         player.draw(batch);
-
-//        player.sprite.setPosition(player.cordinateX, player.cordinateY);
-//        player.sprite.draw(batch);
-
         batch.end();
     }
 
