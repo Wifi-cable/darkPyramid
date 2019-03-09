@@ -1,0 +1,11 @@
+Moin Liebe Leute,
+
+hier findet Ihr eine kleine Zussamenfassung von dem Projekt und deren Funktionen.
+
+Ordnerstruktur:
+
+'Dekstop':
+    beinhaltet die  File 'DekstopLauncher' welche die Main Klasse
+    entspricht und konfigurationen für das aufpoppende Fenster einstellt.
+
+'core':
