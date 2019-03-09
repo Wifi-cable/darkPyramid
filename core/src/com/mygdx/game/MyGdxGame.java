@@ -46,7 +46,7 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.update();
-        tiledMap = new TmxMapLoader().load("../assets/prototype2.tmx");
+        tiledMap = new TmxMapLoader().load("assets/prototype2.tmx");
         tiledmaprenderer = new OrthogonalTiledMapRenderer(tiledMap);
 
 
