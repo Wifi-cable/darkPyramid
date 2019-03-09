@@ -14,15 +14,25 @@ public class Player extends Sprite implements InputProcessor {
 //    public int cordinateX
 //    public int cordinateY
 
+    //@Asel
+    //Movement Vector
     private Vector2 velocity = new Vector2();
     private float speed = 100;
     private TiledMapTileLayer collisionLayer;
 
+    //@Asel
+    //get the sprite and the a Layer of the Map we determined as a
+    //'collisionLayer'
     public Player(Sprite sprite, TiledMapTileLayer collisionMap) {
         super(sprite);
         this.collisionLayer = collisionMap;
     }
 
+
+    //@Asel
+    //Delta time helps with a constant game speed on different frame rates
+    //if we didnt handle it in anyway, the game speed would be
+    //influenced by the frame rate
     @Override
     public void draw(Batch spritebatch) {
         update(Gdx.graphics.getDeltaTime());
@@ -39,10 +49,32 @@ public class Player extends Sprite implements InputProcessor {
         boolean collidedonX = false;
         boolean collidedonY = false;
 
+
+        //@Asel
+        //From this point till Line 143 will be for Movement Only
+        //We first set the position of our character then check if it´s colliding
+        //with a tile that has an "blocked" attribte
+        // if it does, we move our sprite back to the old position
+
+
+        //@Asel
+        //incomming movement on the X-Axis
         setX(getX() + velocity.x * delta);
 
 
+        //@Asel
+        //Now we check each neighbouring Tile of our Sprite
+        //for that we get the cell from the collisionLayer and calculate the adjacent
+        //tiles of the sprite.
+        //After the Calculation, we check if the tile has the Property "blocked".
+        //I looked up the know how from:
+        //https://www.youtube.com/watch?v=TLZbC9brH1c&list=PLXY8okVWvwZ0qmqSBhOtqYRjzWtUCWylb&index=5
 
+        //summary of the used methods:
+        //getCell: gets the Cell from CollsionLayer (duh).
+        //getX: get the X Cordinate from our Sprite.
+        //getWidth: get the Width of our Sprite.
+        //tileWidth: Width of each Tile we got from our LayerMap.
         if (velocity.x > 0) {
             //top right
             collidedonX = collisionLayer.getCell((int) ((getX() + getWidth()) / tileWidth), (int) ((getY() + getHeight()) / tileHeight)).getTile()
@@ -76,6 +108,10 @@ public class Player extends Sprite implements InputProcessor {
 
         }
 
+
+        //@Asel
+        //if a collision happens
+        //->setback to old position
         if(collidedonX){
             setX(oldX);
             velocity.x=0;
@@ -83,27 +119,27 @@ public class Player extends Sprite implements InputProcessor {
 
 
         //debugg
-        if(collidedonX || collidedonY)
-        System.out.println("blocked");
+//        if(collidedonX)
+//        System.out.println("blocked");
 
 
         //move Y -Axis
         setY(getY() + velocity.y * delta);
 
-        if (velocity.y > 0) {
+        if (velocity.y < 0) {
             //bot left
             collidedonY = collisionLayer.getCell((int) ((getX()) / tileWidth), (int) ((getY()) / tileHeight)).getTile()
                     .getProperties().containsKey("blocked");
             //bot middle
             if (!collidedonY)
-                collidedonY = collisionLayer.getCell((int) (((getX())+getWidth()) / tileWidth), (int) ((getY()) / tileHeight)).getTile()
+                collidedonY = collisionLayer.getCell((int) (((getX())+getWidth()/2) / tileWidth), (int) ((getY()) / tileHeight)).getTile()
                         .getProperties().containsKey("blocked");
             //bot right
             if (!collidedonY)
                 collidedonY = collisionLayer.getCell((int) ((getX()+getWidth()) / tileWidth), (int) ((getY()) / tileHeight)).getTile()
                         .getProperties().containsKey("blocked");
 
-        } else if (velocity.y < 0) {
+        } else if (velocity.y > 0) {
 
             //top left
             collidedonY = collisionLayer.getCell((int) ((getX()) / tileWidth), (int) ((getY()+getHeight()  ) / tileHeight)).getTile()
@@ -111,7 +147,7 @@ public class Player extends Sprite implements InputProcessor {
 
             //top mid
             if(!collidedonY)
-                    collidedonY = collisionLayer.getCell((int) (((getX())+getWidth()) / tileWidth), (int) ((getY()+getHeight()) / tileHeight)).getTile()
+                    collidedonY = collisionLayer.getCell((int) (((getX())+getWidth()/2) / tileWidth), (int) ((getY()+getHeight()) / tileHeight)).getTile()
                             .getProperties().containsKey("blocked");
 
             //top right
@@ -142,6 +178,8 @@ public class Player extends Sprite implements InputProcessor {
 
 
 
+    //@Asel
+    //when the Key is pressed
     @Override
     public boolean keyDown(int keycode) {
         switch (keycode) {
@@ -162,6 +200,8 @@ public class Player extends Sprite implements InputProcessor {
         return false;
     }
 
+    //@Asel
+    //when the key stopped being pressed
     @Override
     public boolean keyUp(int keycode) {
         switch (keycode) {

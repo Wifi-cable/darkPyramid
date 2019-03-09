@@ -71,6 +71,7 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor {
 
         //@Asel
         //create a player figure with the pixmap we created(looks like  a  green blob)
+        //we also send it a copy of the first (and only) Layer of the Map
         //IMPORTANT: always .dispose() texture´s and pixmap´s after use!
         player = new Player(new Sprite(new Texture(pix)), (TiledMapTileLayer) tiledMap.getLayers().get(0));
         pix.dispose();
