@@ -45,7 +45,7 @@ public class Player{
 	
 	// @Asel
 	// Delta time helps with a constant game speed on different frame rates
-	// if we didnt handle it in anyway, the game speed would be
+	// if we didnt handle it in any way, the game speed would be
 	// influenced by the frame rate
 	public void update(float delta) {
 		velocity.x = 0;
