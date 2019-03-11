@@ -3,7 +3,11 @@ package com.mygdx.game;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
@@ -17,6 +21,8 @@ public class Level {
 	private TiledMapRenderer tiledmaprenderer;
 	private TiledMapTileLayer collisionLayer;
 	private ArrayList<Rectangle> walls;
+	private ArrayList<Enemy> enemies= new ArrayList<Enemy>();
+
 	private Player player;
 	private float timeLimit;
 
@@ -24,26 +30,43 @@ public class Level {
 		switch (levelNumber) {
 		case 1: {
 			tiledMap = new TmxMapLoader().load("prototype.tmx");
+			
+			//duplicate Code because of the enemy parameter (little bit ugly)
+			tiledmaprenderer = new OrthogonalTiledMapRenderer(tiledMap);
+			collisionLayer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
+			
+			Pixmap enemy1 = new Pixmap(30, 30, Pixmap.Format.RGBA8888);
+			enemy1.setColor(Color.BLUE);
+			enemy1.fill();
+			enemies.add(new Enemy(new Texture(enemy1), 10, 0, 10, 3, (int) collisionLayer.getTileWidth()));
 		}
 			break;
 		case 2: {
 			tiledMap = new TmxMapLoader().load("prototype2.tmx");
+			tiledmaprenderer = new OrthogonalTiledMapRenderer(tiledMap);
+			collisionLayer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
+			
 		}
 			break;
 		default:
 			;
 		}
-		
+
 		// timeLimit may be different for each level ?
 		timeLimit = 180;
-			
-		tiledmaprenderer = new OrthogonalTiledMapRenderer(tiledMap);
-		collisionLayer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
+		
+		
 		setWalls();
 		player = new Player(this);
 	}
+
 	public void update() {
 		player.update();
+		if (enemies.size() != 0) {
+			for (Enemy enemy : enemies) {
+				enemy.update();
+			}
+		}
 	}
 
 	public void setView(OrthographicCamera camera) {
@@ -52,37 +75,46 @@ public class Level {
 
 	public void render(SpriteBatch batch) {
 		batch.end();
-		//because TiledMapRenderer does not use Spritebatch
+		// because TiledMapRenderer does not use Spritebatch
 		tiledmaprenderer.render();
 		batch.begin();
 		player.draw(batch);
-	}	
+		if (enemies.size() != 0) {
+			for (Enemy enemy : enemies) {
+				enemy.draw(batch);
+			}
+		}
+		
+	}
+
 	public List<Rectangle> getWalls() {
 		return walls;
 	}
-	
-	
+
 	public boolean playerHasWon() {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 	public boolean playerHasFailed() {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 	// timelimit in seconds
 	public float getTimeLimit() {
 		return timeLimit;
 	}
 
-	// TODO should return current health of player/ number of hearts that should be displayed
+	// TODO should return current health of player/ number of hearts that should be
+	// displayed
 	public int getHealthOfPlayer() {
 		return 3;
 	}
-	
-	// TODO getInventory() will be needed for what item(s) should be displayed in inventory
-	
+
+	// TODO getInventory() will be needed for what item(s) should be displayed in
+	// inventory
+
 	// using TileMap Layer to calculate all wall rectangles
 	private void setWalls() {
 		walls = new ArrayList<Rectangle>();
@@ -95,4 +127,5 @@ public class Level {
 			}
 		}
 	}
+
 }
