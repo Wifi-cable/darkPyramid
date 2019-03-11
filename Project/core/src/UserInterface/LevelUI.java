@@ -1,33 +1,27 @@
 package UserInterface;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.mygdx.game.GameState;
 import com.mygdx.game.Level;
-import com.mygdx.game.Player;
 
 public class LevelUI implements UIinterface{
-	int currentLevel;
-	boolean completed;
-	SimpleButton pauseButton = new SimpleButton();
-	public Player player;
+	private int currentLevel;
+	private boolean completed;
+	
+	private Healthbar healthbar;
+	private float timeLimit;
+	private SimpleButton pauseButton;
 	private Level level;
-	public OrthographicCamera camera;
+	private OrthographicCamera camera;
 	
 	
 	public LevelUI() {
+		healthbar = new Healthbar();
+		pauseButton = new SimpleButton(700, 10, 90, 40, com.mygdx.game.MyGdxGame.txt);
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.update();
@@ -35,19 +29,21 @@ public class LevelUI implements UIinterface{
 	
 	@Override
 	public GameState handleInput() {
+	    timeLimit -= Gdx.graphics.getDeltaTime();
 		camera.update();
-		player.update(Gdx.graphics.getDeltaTime());
+		level.update();
 		level.setView(camera);
+		healthbar.update(level.getHealthOfPlayer());
 
 		if(Gdx.input.isKeyJustPressed(Keys.P)|| pauseButton.isJustPressed())
 			return GameState.PauseMenu;
 		
 		//cheating and testing:
-		if(Gdx.input.isKeyJustPressed(Keys.W)||player.hasWon()) {
+		if(Gdx.input.isKeyJustPressed(Keys.W)||level.playerHasWon()) {
 			completed = true;
 			return GameState.LevelOver;
 		}
-		if(Gdx.input.isKeyJustPressed(Keys.L)||player.hasFailed()) {
+		if(Gdx.input.isKeyJustPressed(Keys.L)|| level.playerHasFailed()||timeOver()) {
 			completed = false;
 			return GameState.LevelOver;
 		}
@@ -56,21 +52,25 @@ public class LevelUI implements UIinterface{
 		
 	}
 
+	private boolean timeOver() {
+		return timeLimit < 0;
+	}
+
 	@Override
 	public void render(SpriteBatch batch) {
-		batch.end();
-		level.render();
-		batch.begin();
-		player.draw(batch);
+		level.render(batch);
+	    int minutes = ((int)timeLimit) / 60;
+	    int seconds = ((int)timeLimit) % 60;
 		pauseButton.render(batch);
+		com.mygdx.game.MyGdxGame.font.draw(batch, ""+minutes+":"+seconds, 10, 640);
+		healthbar.render(batch);
 	}
 
 	public void initialize(int selectedLevel) {
 		currentLevel = selectedLevel;
 		completed = false;
 		level = new Level(selectedLevel);
-		player= new Player(level);
-		System.out.println("playing level "+selectedLevel);
+		timeLimit = level.getTimeLimit();
 	}
 
 	public int getCurrentLevel() {
@@ -79,6 +79,26 @@ public class LevelUI implements UIinterface{
 
 	public boolean hasWon() {
 		return completed;
+	}
+	
+	private class Healthbar{
+		int count;
+		float x = 100;
+		float y = 610;
+		Texture heart = new Texture(Gdx.files.internal("pixelHeart.png"));	
+		Sprite heartSprite;
+		public Healthbar() {
+			heartSprite = new Sprite(heart);
+		}
+		void render(SpriteBatch batch) {
+			for(int i = 0; i < count;i++) {
+				heartSprite.setPosition(x+i*heartSprite.getWidth() +i*10, y);
+				heartSprite.draw(batch);
+			}
+		}
+		void update(int numberOfHearts) {
+			count = numberOfHearts;
+		}
 	}
 
 }

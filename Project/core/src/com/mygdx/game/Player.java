@@ -17,8 +17,6 @@ public class Player{
 	private Vector2 velocity = new Vector2();
 	private float speed = 100;
 	private Level currentLevel;
-	private boolean hasFailed;
-	private boolean hasWon;
 
 	public Player(Level level) {
 		Pixmap pix = new Pixmap(20, 20, Pixmap.Format.RGBA8888);
@@ -47,7 +45,8 @@ public class Player{
 	// Delta time helps with a constant game speed on different frame rates
 	// if we didnt handle it in anyway, the game speed would be
 	// influenced by the frame rate
-	public void update(float delta) {
+	public void update() {
+		float delta = Gdx.graphics.getDeltaTime();
 		velocity.x = 0;
 		velocity.y = 0;
 		if (Gdx.input.isKeyPressed(Input.Keys.UP))
@@ -68,15 +67,5 @@ public class Player{
 		sprite.setY(sprite.getY() + velocity.y * delta);
 		if (hasCollidedWith(currentLevel.getWalls()))
 			sprite.setY(oldY);
-	}
-
-
-	public boolean hasWon() {
-		return hasWon;
-	}
-
-
-	public boolean hasFailed() {
-		return hasFailed;
 	}
 }
