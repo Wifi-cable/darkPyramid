@@ -15,49 +15,39 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.mygdx.game.GameState;
-
+import com.mygdx.game.Level;
 import com.mygdx.game.Player;
-
-
 
 public class LevelUI implements UIinterface{
 	int currentLevel;
 	boolean completed;
 	SimpleButton pauseButton = new SimpleButton();
-	
-	
-	
 	public Player player;
-	public TiledMap tiledMap;
-	public TiledMapRenderer tiledmaprenderer;
+	private Level level;
 	public OrthographicCamera camera;
+	
 	
 	public LevelUI() {
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.update();
-		tiledMap = new TmxMapLoader().load("prototype2.tmx");
-		tiledmaprenderer = new OrthogonalTiledMapRenderer(tiledMap);
-
-		Pixmap pix = new Pixmap(20, 20, Pixmap.Format.RGBA8888);
-		pix.setColor(Color.GREEN);
-		pix.fill();
-		player = new Player(new Sprite(new Texture(pix)), (TiledMapTileLayer) tiledMap.getLayers().get(0));
-		pix.dispose();
 	}
 	
 	@Override
 	public GameState handleInput() {
+		camera.update();
+		player.update(Gdx.graphics.getDeltaTime());
+		level.setView(camera);
 
 		if(Gdx.input.isKeyJustPressed(Keys.P)|| pauseButton.isJustPressed())
 			return GameState.PauseMenu;
 		
 		//cheating and testing:
-		if(Gdx.input.isKeyJustPressed(Keys.W)) {
+		if(Gdx.input.isKeyJustPressed(Keys.W)||player.hasWon()) {
 			completed = true;
 			return GameState.LevelOver;
 		}
-		if(Gdx.input.isKeyJustPressed(Keys.L)) {
+		if(Gdx.input.isKeyJustPressed(Keys.L)||player.hasFailed()) {
 			completed = false;
 			return GameState.LevelOver;
 		}
@@ -69,22 +59,17 @@ public class LevelUI implements UIinterface{
 	@Override
 	public void render(SpriteBatch batch) {
 		batch.end();
-		Gdx.gl.glClearColor(1, 0, 0, 1);
-		Gdx.gl.glBlendFunc(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA);
-		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
-		camera.update();
-		tiledmaprenderer.setView(camera);
-		tiledmaprenderer.render();
-
+		level.render();
 		batch.begin();
 		player.draw(batch);
-		com.mygdx.game.MyGdxGame.font.draw(batch, "playing level, P to pause, W to win, L to lose", 100, 300);	
 		pauseButton.render(batch);
 	}
 
 	public void initialize(int selectedLevel) {
 		currentLevel = selectedLevel;
 		completed = false;
+		level = new Level(selectedLevel);
+		player= new Player(level);
 		System.out.println("playing level "+selectedLevel);
 	}
 

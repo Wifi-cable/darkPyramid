@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-up" width="20" height="15" tilewidth="40" tileheight="40" infinite="0" nextlayerid="2" nextobjectid="1">
- <tileset firstgid="1" source="C:\Users\aygun\IdeaProjects\gdxprjj1\core\assets\Tilesets\ColorTiles\black.tsx"/>
- <tileset firstgid="4489" source="C:\Users\aygun\IdeaProjects\gdxprjj1\core\assets\Tilesets\ColorTiles\white.tsx"/>
+ <tileset firstgid="1" source="Tilesets/ColorTiles/white.tsx"/>
+ <tileset firstgid="4489" source="Tilesets/ColorTiles/black.tsx"/>
  <layer id="1" name="Kachelebene 1" width="20" height="15">
   <data encoding="csv">
 4489,4489,4489,4489,4489,4489,4489,4489,1,4489,1,4489,4489,4489,4489,4489,4489,4489,4489,4489,
@@ -18,7 +18,7 @@
 4489,1,4489,1,4489,4489,4489,4489,4489,4489,4489,4489,1,4489,1,1,1,1,4489,1,
 4489,1,4489,1,4489,4489,1,1,4489,1,4489,1,4489,4489,4489,4489,4489,1,4489,1,
 4489,1,4489,4489,4489,1,4489,4489,1,1,4489,4489,1,4489,1,1,4489,1,4489,4489,
-4489,1,4489,1,4489,4489,4489,4489,4489,1,4489,4489,4489,4489,4489,1,4489,4489,4489,1
+1,1,4489,1,4489,4489,4489,4489,4489,1,4489,4489,4489,4489,4489,1,4489,4489,4489,1
 </data>
  </layer>
 </map>

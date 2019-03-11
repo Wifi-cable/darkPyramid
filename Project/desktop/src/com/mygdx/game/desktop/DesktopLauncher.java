@@ -9,7 +9,7 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "Dark Pyrmid";
 		config.width = 800;
-		config.height = 600;
+		config.height = 650;
 		config.resizable = false;
 		new LwjglApplication(new MyGdxGame(), config);
 	}

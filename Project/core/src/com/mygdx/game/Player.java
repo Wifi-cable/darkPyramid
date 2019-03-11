@@ -1,68 +1,52 @@
 package com.mygdx.game;
 
-import java.util.ArrayList;
-
+import java.util.List;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.MapObjects;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.badlogic.gdx.maps.tiled.TiledMapTile.BlendMode;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-public class Player extends Sprite{
-	// @Asel
-	// Movement Vector
+public class Player{
+	
+	private Sprite sprite;
 	private Vector2 velocity = new Vector2();
 	private float speed = 100;
-	private TiledMapTileLayer collisionLayer;
-	private ArrayList<Rectangle> CollisionObjects;
+	private Level currentLevel;
+	private boolean hasFailed;
+	private boolean hasWon;
 
-	// @Asel
-	// get the sprite and the a Layer of the Map we determined as a
-	// 'collisionLayer'
-	public Player(Sprite sprite, TiledMapTileLayer collisionMap) {
-		super(sprite);
-		this.collisionLayer = collisionMap;
-		
-		CollisionObjects = new ArrayList<Rectangle>();
-		for (int col = 0; col < collisionLayer.getWidth(); col++) {
-			for (int row = 0; row < collisionLayer.getHeight(); row++) {
-				if (collisionLayer.getCell(col, row).getTile().getProperties().containsKey("blocked")) {
-					CollisionObjects.add(
-							new Rectangle(col * collisionLayer.getTileWidth(), collisionLayer.getTileHeight() * (row),
-									collisionLayer.getTileWidth(), collisionLayer.getTileHeight()));
-				}
-			}
-		}
+	public Player(Level level) {
+		Pixmap pix = new Pixmap(20, 20, Pixmap.Format.RGBA8888);
+		pix.setColor(Color.GREEN);
+		pix.fill();
+		sprite = new Sprite(new Texture(pix));
+		pix.dispose();
+		currentLevel = level;
 	}
 
-	// @Asel
-	// Delta time helps with a constant game speed on different frame rates
-	// if we didnt handle it in anyway, the game speed would be
-	// influenced by the frame rate
-	@Override
+
 	public void draw(Batch spritebatch) {
-		update(Gdx.graphics.getDeltaTime());
-		super.draw(spritebatch);
+		sprite.draw(spritebatch);
 	}
-
-	private boolean hasCollided() {
-		Rectangle playerRectangle = new Rectangle(getX(), getY(), getWidth(), getHeight());
-		for (Rectangle r : CollisionObjects) {
+	
+	private boolean hasCollidedWith(List<Rectangle> objects) {
+		Rectangle playerRectangle = new Rectangle(sprite.getX(), sprite.getY(), sprite.getWidth(), sprite.getHeight());
+		for (Rectangle r : objects) {
 			if (playerRectangle.overlaps(r))
 				return true;
 		}
 		return false;
 	}
-
+	
+	// @Asel
+	// Delta time helps with a constant game speed on different frame rates
+	// if we didnt handle it in anyway, the game speed would be
+	// influenced by the frame rate
 	public void update(float delta) {
 		velocity.x = 0;
 		velocity.y = 0;
@@ -75,15 +59,24 @@ public class Player extends Sprite{
 		if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
 			velocity.x = -speed;
 
-		float oldX = getX();
-		float oldY = getY();
+		float oldX = sprite.getX();
+		float oldY = sprite.getY();
 
-		setX(getX() + velocity.x * delta);
-		if (hasCollided())
-			setX(oldX);
+		sprite.setX(sprite.getX() + velocity.x * delta);
+		if (hasCollidedWith(currentLevel.getWalls()))
+			sprite.setX(oldX);
+		sprite.setY(sprite.getY() + velocity.y * delta);
+		if (hasCollidedWith(currentLevel.getWalls()))
+			sprite.setY(oldY);
+	}
 
-		setY(getY() + velocity.y * delta);
-		if (hasCollided())
-			setY(oldY);
+
+	public boolean hasWon() {
+		return hasWon;
+	}
+
+
+	public boolean hasFailed() {
+		return hasFailed;
 	}
 }
