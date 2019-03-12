@@ -128,4 +128,8 @@ public class Level {
 		}
 	}
 
+	public Rectangle getPlayerRectangle() {
+		return player.getRectangle();
+	}
+
 }

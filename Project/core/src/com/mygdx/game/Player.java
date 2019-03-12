@@ -68,4 +68,9 @@ public class Player{
 		if (hasCollidedWith(currentLevel.getWalls()))
 			sprite.setY(oldY);
 	}
+
+
+	public Rectangle getRectangle() {
+		return sprite.getBoundingRectangle();
+	}
 }
