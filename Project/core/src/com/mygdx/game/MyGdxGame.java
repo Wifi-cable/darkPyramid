@@ -40,8 +40,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		font.setColor(Color.WHITE);
 		font.getData().setScale(2);
 		txt = new Texture(Gdx.files.internal("logo.png"));
-		Music mp3Music = Gdx.audio.newMusic(Gdx.files.internal("bgMusic.mp3"));
-		mp3Music.play();
+		//Music mp3Music = Gdx.audio.newMusic(Gdx.files.internal("bgMusic.mp3"));
+		//mp3Music.play();
 		
 		batch = new SpriteBatch();
 		
