@@ -8,6 +8,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.sun.deploy.net.proxy.WIExplorerAutoProxyHandler;
@@ -21,21 +22,9 @@ public class Player {
     private Sprite sprite;
     private Texture spritessheet;
     private TextureRegion textureRegion;
-    private TextureRegion[] texturRegWalkUp;
-    private TextureRegion[] texturRegWalkDown;
-    private TextureRegion[] texturRegWalkRight;
-    private TextureRegion[] texturRegWalkLeft;
+    private TextureRegion[] texturRegWalkUp,texturRegWalkLeft,texturRegWalkRight,texturRegWalkDown;
     private Directions walkDirection = SOUTH;
-
-    private Animation<Sprite> animation;
-
-    private Animation<Sprite> aniWalkUp;
-    private Animation<Sprite> aniWalkDown;
-    private Animation<Sprite> aniWalkRight;
-    private Animation<Sprite> aniWalkLeft;
-
-    private boolean Idle=true;
-
+    private Animation<Sprite> animation,aniWalkUp,aniWalkDown,aniWalkRight,aniWalkLeft;
     private Vector2 velocity = new Vector2();
     private float speed = 100;
     private Level currentLevel;
@@ -44,13 +33,8 @@ public class Player {
     private float elapsedTime = 0;
 
     public Player(Level level) {
-
         currentLevel = level;
-
         initTextures();
-
-
-        // animation = new Animation(1, animationFrames);
     }
 
     public void initTextures() {
@@ -74,8 +58,9 @@ public class Player {
             index++;
         }
 
-        sprite = new Sprite(texturRegWalkDown[1],32,48,32,48);
-        sprite.setPosition(0,0);
+
+        sprite = new Sprite(texturRegWalkDown[1], 32, 48, 32, 48);
+        sprite.setPosition(0, 0);
 
         aniWalkDown = new Animation(0.3f, texturRegWalkDown);
         aniWalkUp = new Animation(0.3f, texturRegWalkUp);
@@ -83,18 +68,19 @@ public class Player {
         aniWalkRight = new Animation(0.3f, texturRegWalkRight);
         animation = new Animation(0.3f, texturRegWalkRight);
 
+
     }
 
 
     public void draw(Batch spritebatch) {
         elapsedTime += Gdx.graphics.getDeltaTime();
 
-         spritebatch.draw(animation.getKeyFrame(elapsedTime, true), sprite.getX(), sprite.getY());
+        spritebatch.draw(animation.getKeyFrame(elapsedTime, true), sprite.getX(), sprite.getY());
 
     }
 
     private boolean hasCollidedWith(List<Rectangle> objects) {
-        Rectangle playerRectangle = new Rectangle(sprite.getX(), sprite.getY(), sprite.getWidth()-6, sprite.getHeight()/2);
+        Rectangle playerRectangle = new Rectangle(sprite.getX(), sprite.getY(), sprite.getWidth() - 6, sprite.getHeight() / 2);
         for (Rectangle r : objects) {
             if (playerRectangle.overlaps(r))
                 return true;
@@ -107,7 +93,6 @@ public class Player {
     // if we didnt handle it in any way, the game speed would be
     // influenced by the frame rate
     public void update(float delta) {
-
 
 
         velocity.x = 0;
@@ -132,6 +117,24 @@ public class Player {
             velocity.x = -speed;
             walkDirection = WEST;
             animation = aniWalkLeft;
+        }
+        if (!Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
+            switch (walkDirection) {
+                case NORTH:
+                    animation = new Animation(0.3f, texturRegWalkUp[1]);
+                    break;
+                case SOUTH:
+                    animation = new Animation(0.3f, texturRegWalkDown[1]);
+                    break;
+                case WEST:
+                    animation = new Animation(0.3f, texturRegWalkLeft[1]);
+                    break;
+                case EAST:
+                    animation = new Animation(0.3f, texturRegWalkRight[1]);
+                    break;
+            }
+
+
         }
         float oldX = sprite.getX();
         float oldY = sprite.getY();
