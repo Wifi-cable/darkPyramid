@@ -1,24 +1,41 @@
 package com.mygdx.game;
 
-import java.text.Format;
-import java.text.Normalizer;
 import java.util.List;
+import java.util.WeakHashMap;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.sun.glass.ui.Pixels;
+import com.sun.deploy.net.proxy.WIExplorerAutoProxyHandler;
+import com.sun.javafx.scene.traversal.Direction;
+import jdk.management.resource.internal.inst.SocketOutputStreamRMHooks;
+
+import static com.mygdx.game.Player.Directions.*;
 
 public class Player {
 
     private Sprite sprite;
+    private Texture spritessheet;
+    private TextureRegion textureRegion;
+    private TextureRegion[] texturRegWalkUp;
+    private TextureRegion[] texturRegWalkDown;
+    private TextureRegion[] texturRegWalkRight;
+    private TextureRegion[] texturRegWalkLeft;
+    private Directions walkDirection = SOUTH;
+
     private Animation<Sprite> animation;
+
+    private Animation<Sprite> aniWalkUp;
+    private Animation<Sprite> aniWalkDown;
+    private Animation<Sprite> aniWalkRight;
+    private Animation<Sprite> aniWalkLeft;
+
+    private boolean Idle=true;
+
     private Vector2 velocity = new Vector2();
     private float speed = 100;
     private Level currentLevel;
@@ -27,38 +44,57 @@ public class Player {
     private float elapsedTime = 0;
 
     public Player(Level level) {
-        Pixmap pix = new Pixmap(20, 20, Pixmap.Format.RGBA8888);
-        pix.setColor(Color.GREEN);
-        pix.fill();
-        sprite = new Sprite(new Texture(pix));
-        pix.dispose();
+
         currentLevel = level;
 
-        TextureRegion[][] tmpFrames = TextureRegion.split
-                (new Texture
-                                (new FileHandle("testanimation.png"),Pixmap.Format.RGB888, true)
-                             , 40, 40);
-        TextureRegion[] animationFrames = new TextureRegion[4];
-        int index = 0;
-        for (int i = 0; i <= 1; i++) {
-            for (int j = 0; j <= 1; j++) {
-                System.out.println(tmpFrames.length);
-                animationFrames[index++] = tmpFrames[j][i];
+        initTextures();
 
-            }
+
+        // animation = new Animation(1, animationFrames);
+    }
+
+    public void initTextures() {
+
+        spritessheet = new Texture("viola.png");
+        textureRegion = new TextureRegion(spritessheet, 0, 0, 96, 192);
+        TextureRegion[][] tmpFrames = textureRegion.split(spritessheet, 32, 48);
+        texturRegWalkDown = new TextureRegion[3];
+        texturRegWalkLeft = new TextureRegion[3];
+        texturRegWalkRight = new TextureRegion[3];
+        texturRegWalkUp = new TextureRegion[3];
+        int index = 0;
+
+
+        for (int j = 0; j < 3; j++) {
+            System.out.println(tmpFrames.length);
+            texturRegWalkDown[index] = tmpFrames[0][j];
+            texturRegWalkLeft[index] = tmpFrames[1][j];
+            texturRegWalkRight[index] = tmpFrames[2][j];
+            texturRegWalkUp[index] = tmpFrames[3][j];
+            index++;
         }
-        animation = new Animation(1f / 4f, animationFrames);
+
+        sprite = new Sprite(texturRegWalkDown[1],32,48,32,48);
+        sprite.setPosition(0,0);
+
+        aniWalkDown = new Animation(0.3f, texturRegWalkDown);
+        aniWalkUp = new Animation(0.3f, texturRegWalkUp);
+        aniWalkLeft = new Animation(0.3f, texturRegWalkLeft);
+        aniWalkRight = new Animation(0.3f, texturRegWalkRight);
+        animation = new Animation(0.3f, texturRegWalkRight);
+
     }
 
 
     public void draw(Batch spritebatch) {
         elapsedTime += Gdx.graphics.getDeltaTime();
-        spritebatch.draw(animation.getKeyFrame(elapsedTime, true), sprite.getX(), sprite.getY());
-        //sprite.draw(spritebatch);
+
+         spritebatch.draw(animation.getKeyFrame(elapsedTime, true), sprite.getX(), sprite.getY());
+
     }
 
     private boolean hasCollidedWith(List<Rectangle> objects) {
-        Rectangle playerRectangle = new Rectangle(sprite.getX(), sprite.getY(), sprite.getWidth(), sprite.getHeight());
+        Rectangle playerRectangle = new Rectangle(sprite.getX(), sprite.getY(), sprite.getWidth()-6, sprite.getHeight()/2);
         for (Rectangle r : objects) {
             if (playerRectangle.overlaps(r))
                 return true;
@@ -72,21 +108,31 @@ public class Player {
     // influenced by the frame rate
     public void update(float delta) {
 
-        System.out.println(animation.getKeyFrame(elapsedTime, true));
-        // sprite = new Sprite(animation.getKeyFrame(elapsedTime));
 
 
         velocity.x = 0;
         velocity.y = 0;
-        if (Gdx.input.isKeyPressed(Input.Keys.UP))
+        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             velocity.y = speed;
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
+            walkDirection = NORTH;
+            animation = aniWalkUp;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
             velocity.y = -speed;
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+            walkDirection = SOUTH;
+            animation = aniWalkDown;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             velocity.x = speed;
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
-            velocity.x = -speed;
+            walkDirection = EAST;
+            animation = aniWalkRight;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
 
+            velocity.x = -speed;
+            walkDirection = WEST;
+            animation = aniWalkLeft;
+        }
         float oldX = sprite.getX();
         float oldY = sprite.getY();
 
@@ -96,6 +142,8 @@ public class Player {
         sprite.setY(sprite.getY() + velocity.y * delta);
         if (hasCollidedWith(currentLevel.getWalls()))
             sprite.setY(oldY);
+
+        //animation = new Animation(0.3f,texturRegWalkDown[1].getTexture());
     }
 
 
@@ -106,5 +154,14 @@ public class Player {
 
     public boolean hasFailed() {
         return hasFailed;
+    }
+
+
+    public enum Directions {
+        NORTH,
+        SOUTH,
+        WEST,
+        EAST,
+
     }
 }
