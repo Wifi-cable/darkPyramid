@@ -25,58 +25,58 @@ public class Level {
 
 	private Player player;
 	private float timeLimit;
-	
-	public static Level thisLevel;
+
+	private Level thisLevel;
 
 	public Level(int levelNumber) {
+		
 		switch (levelNumber) {
 		case 1: {
-			tiledMap = new TmxMapLoader().load("prototype.tmx");
-			
-			//duplicate Code because of the enemy parameter (little bit ugly)
-			
+			tiledMap = new TmxMapLoader().load("cuteLevel3.tmx");
 		}
 			break;
 		case 2: {
 			tiledMap = new TmxMapLoader().load("prototype2.tmx");
-			
+
+
 		}
 			break;
 		default:
 			;
 		}
-		
+
+
 		tiledmaprenderer = new OrthogonalTiledMapRenderer(tiledMap);
 		collisionLayer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
 		
-
 		// timeLimit may be different for each level ?
 		timeLimit = 180;
-		
-		
+
+
 		setWalls();
-		
+
 		thisLevel = this;
 		setEntities(levelNumber);
 	}
 
+
 	public void setEntities(int levelNumber) {
-		player = new Player();
+		player = new Player(thisLevel);
 		if(levelNumber == 1) {
 			Pixmap enemy1 = new Pixmap(30, 30, Pixmap.Format.RGBA8888);
 			enemy1.setColor(Color.BLUE);
 			enemy1.fill();
-			enemies.add(new Enemy(new Texture(enemy1), 10, 0, 10, 3));
+			enemies.add(new Enemy(thisLevel, new Texture(enemy1), 10, 0, 10, 3));
 		}
 	}
-	
+
 	public void update() {
 		player.update();
-//		if (enemies.size() != 0) {
+		if (enemies.size() != 0) {
 			for (Enemy enemy : enemies) {
 				enemy.update();
 			}
-//		}
+		}
 	}
 
 	public void setView(OrthographicCamera camera) {
@@ -94,7 +94,7 @@ public class Level {
 				enemy.draw(batch);
 			}
 //		}
-		
+
 	}
 
 	public List<Rectangle> getWalls() {
@@ -141,9 +141,8 @@ public class Level {
 	public Rectangle getPlayerRectangle() {
 		return player.getRectangle();
 	}
-	
-	public int getTileSize() {
-		return collisionLayer.getWidth();
-	}
 
+	public int getTileSize() {
+		return (int)collisionLayer.getTileWidth();
+	}
 }

@@ -10,7 +10,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-public class Enemy {
+public class Enemy extends Sprite {
 
 	private Vector2 velocity = new Vector2();
 	private Rectangle enemy;
@@ -25,19 +25,23 @@ public class Enemy {
 	private int endX;
 	private int endY;
 
-	public Enemy(Texture texture, int startTileX, int startTileY, int endTileX, int endTileY) {
-		int tileWith = 40;
+//	private boolean xDifference;
+//	private boolean yDifference;
+
+	public Enemy(Level currentLevel, Texture texture, int startTileX, int startTileY, int endTileX, int endTileY) {
+		int tileWith = currentLevel.getTileSize();
 		this.sprite = new Sprite(texture);
 		this.startX = firstX + startTileX * tileWith + (tileWith - texture.getWidth())/2;
 		this.startY = firstY - startTileY * tileWith - (tileWith - texture.getHeight())/2;
 		this.endX = firstX + endTileX * tileWith + (tileWith - texture.getWidth())/2;
 		this.endY = firstY - endTileY * tileWith - (tileWith - texture.getHeight())/2;
 
+
 		sprite.setPosition(startX, startY);
 		this.enemy = new Rectangle(sprite.getX(), sprite.getY(), tileWith, tileWith);
 	}
 
-
+	@Override
 	public void draw(Batch spritebatch) {
 		sprite.draw(spritebatch);
 	}
