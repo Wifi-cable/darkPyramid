@@ -26,15 +26,17 @@ public class Level {
 	private Player player;
 	private float timeLimit;
 
+	public static Level thisLevel;
+
 	public Level(int levelNumber) {
 		switch (levelNumber) {
 		case 1: {
-			tiledMap = new TmxMapLoader().load("prototype.tmx");
-			
+			tiledMap = new TmxMapLoader().load("cuteLevel3.tmx");
+
 			//duplicate Code because of the enemy parameter (little bit ugly)
 			tiledmaprenderer = new OrthogonalTiledMapRenderer(tiledMap);
 			collisionLayer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
-			
+
 			Pixmap enemy1 = new Pixmap(30, 30, Pixmap.Format.RGBA8888);
 			enemy1.setColor(Color.BLUE);
 			enemy1.fill();
@@ -43,9 +45,10 @@ public class Level {
 			break;
 		case 2: {
 			tiledMap = new TmxMapLoader().load("prototype2.tmx");
+
 			tiledmaprenderer = new OrthogonalTiledMapRenderer(tiledMap);
 			collisionLayer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
-			
+
 		}
 			break;
 		default:
@@ -54,10 +57,23 @@ public class Level {
 
 		// timeLimit may be different for each level ?
 		timeLimit = 180;
-		
-		
+
+
 		setWalls();
-		player = new Player(this);
+
+		thisLevel = this;
+		setEntities(levelNumber);
+	}
+
+
+	public void setEntities(int levelNumber) {
+		player = new Player();
+		if(levelNumber == 1) {
+			Pixmap enemy1 = new Pixmap(30, 30, Pixmap.Format.RGBA8888);
+			enemy1.setColor(Color.BLUE);
+			enemy1.fill();
+			enemies.add(new Enemy(new Texture(enemy1), 10, 0, 10, 3,40));
+		}
 	}
 
 	public void update() {
@@ -79,12 +95,12 @@ public class Level {
 		tiledmaprenderer.render();
 		batch.begin();
 		player.draw(batch);
-		if (enemies.size() != 0) {
+//		if (enemies.size() != 0) {
 			for (Enemy enemy : enemies) {
 				enemy.draw(batch);
 			}
-		}
-		
+//		}
+
 	}
 
 	public List<Rectangle> getWalls() {
