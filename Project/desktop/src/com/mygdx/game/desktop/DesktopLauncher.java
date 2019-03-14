@@ -7,7 +7,7 @@ import com.mygdx.game.MyGdxGame;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.title = "Dark Pyrmid";
+		config.title = "Dark Pyramid";
 		config.width = 800;
 		config.height = 650;
 		config.resizable = false;
