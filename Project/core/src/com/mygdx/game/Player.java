@@ -18,13 +18,13 @@ public class Player{
 	private float speed = 100;
 	private Level currentLevel;
 
-	public Player(Level level) {
+	public Player() {
 		Pixmap pix = new Pixmap(20, 20, Pixmap.Format.RGBA8888);
 		pix.setColor(Color.GREEN);
 		pix.fill();
 		sprite = new Sprite(new Texture(pix));
 		pix.dispose();
-		currentLevel = level;
+		currentLevel = Level.thisLevel;
 	}
 
 
@@ -67,5 +67,10 @@ public class Player{
 		sprite.setY(sprite.getY() + velocity.y * delta);
 		if (hasCollidedWith(currentLevel.getWalls()))
 			sprite.setY(oldY);
+	}
+
+
+	public Rectangle getRectangle() {
+		return sprite.getBoundingRectangle();
 	}
 }
