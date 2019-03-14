@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="gdxprjj1.core.main" target="1.6" />
+      <module name="gdxprjj1.core.test" target="1.6" />
+      <module name="gdxprjj1.desktop.main" target="1.6" />
+      <module name="gdxprjj1.desktop.test" target="1.6" />
+      <module name="gdxprjj1.html.main" target="1.6" />
+      <module name="gdxprjj1.html.test" target="1.6" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

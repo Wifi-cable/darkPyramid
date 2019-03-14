@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/gdxprjj1.iml" filepath="$PROJECT_DIR$/gdxprjj1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/gdxprjj1.core.iml" filepath="$PROJECT_DIR$/.idea/modules/core/gdxprjj1.core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/gdxprjj1.core.main.iml" filepath="$PROJECT_DIR$/.idea/modules/core/gdxprjj1.core.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/gdxprjj1.core.test.iml" filepath="$PROJECT_DIR$/.idea/modules/core/gdxprjj1.core.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/gdxprjj1.desktop.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/gdxprjj1.desktop.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/gdxprjj1.desktop.main.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/gdxprjj1.desktop.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/gdxprjj1.desktop.test.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/gdxprjj1.desktop.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/html/gdxprjj1.html.main.iml" filepath="$PROJECT_DIR$/.idea/modules/html/gdxprjj1.html.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/html/gdxprjj1.html.test.iml" filepath="$PROJECT_DIR$/.idea/modules/html/gdxprjj1.html.test.iml" />
+    </modules>
+  </component>
+</project>
