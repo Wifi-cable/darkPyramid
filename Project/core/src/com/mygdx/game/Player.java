@@ -92,9 +92,9 @@ public class Player {
     // Delta time helps with a constant game speed on different frame rates
     // if we didnt handle it in any way, the game speed would be
     // influenced by the frame rate
-    public void update(float delta) {
+    public void update() {
 
-
+        float delta = Gdx.graphics.getDeltaTime();
         velocity.x = 0;
         velocity.y = 0;
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
