@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import UserInterface.*;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
@@ -8,8 +9,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
-import UserInterface.*;
 
 public class MyGdxGame extends ApplicationAdapter {
 	
@@ -37,8 +36,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		font = new BitmapFont();
 		font.setColor(Color.WHITE);
 		font.getData().setScale(2);
-		txt = new Texture(Gdx.files.internal("logo.png"));
-		Music mp3Music = Gdx.audio.newMusic(Gdx.files.internal("bgMusic.mp3"));
+		txt = new Texture(Gdx.files.internal("UIelements/logo.png"));
+		Music mp3Music = Gdx.audio.newMusic(Gdx.files.internal("Music/bgMusic.mp3"));
 		mp3Music.play();
 		
 		batch = new SpriteBatch();
@@ -88,7 +87,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		case Level:				nextGameState = level.handleInput();break;
 		case PauseMenu:			nextGameState = pauseMenu.handleInput();break;
 		case LevelOver:			nextGameState = levelOver.handleInput();break;
-		default:;
+			default:
 		}	
 	}
 	
@@ -127,7 +126,6 @@ public class MyGdxGame extends ApplicationAdapter {
 			levelOver.initialize(playedLevel, won);
 		} break;
 		default:
-			;
 		}
 
 	}

@@ -37,9 +37,9 @@ public class Player {
 
     public void initTextures() {
 
-        spritessheet = new Texture("viola.png");
+        spritessheet = new Texture("SpriteSheets/viola.png");
         textureRegion = new TextureRegion(spritessheet, 0, 0, 96, 192);
-        TextureRegion[][] tmpFrames = textureRegion.split(spritessheet, 32, 48);
+        TextureRegion[][] tmpFrames = TextureRegion.split(spritessheet, 32, 48);
         texturRegWalkDown = new TextureRegion[3];
         texturRegWalkLeft = new TextureRegion[3];
         texturRegWalkRight = new TextureRegion[3];

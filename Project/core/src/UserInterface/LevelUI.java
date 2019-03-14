@@ -2,9 +2,7 @@ package UserInterface;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -30,7 +28,7 @@ public class LevelUI implements UIinterface {
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.update();
-		darkLayer = new Sprite(new Texture(Gdx.files.internal("darkLayer.png")));
+		darkLayer = new Sprite(new Texture(Gdx.files.internal("UIelements/darkLayer.png")));
 	}
 
 	@Override
@@ -102,7 +100,7 @@ public class LevelUI implements UIinterface {
 		int count;
 		float x = 100;
 		float y = 610;
-		Texture heart = new Texture(Gdx.files.internal("pixelHeart.png"));
+		Texture heart = new Texture(Gdx.files.internal("UIelements/pixelHeart.png"));
 		Sprite heartSprite;
 
 		public Healthbar() {
