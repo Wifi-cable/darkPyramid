@@ -25,37 +25,34 @@ public class Level {
 
 	private Player player;
 	private float timeLimit;
-	
+
 	public static Level thisLevel;
 
 	public Level(int levelNumber) {
 		switch (levelNumber) {
 		case 1: {
 			tiledMap = new TmxMapLoader().load("prototype.tmx");
-			
-			//duplicate Code because of the enemy parameter (little bit ugly)
-			
 		}
 			break;
 		case 2: {
 			tiledMap = new TmxMapLoader().load("prototype2.tmx");
-			
+
 		}
 			break;
 		default:
 			;
 		}
-		
+
 		tiledmaprenderer = new OrthogonalTiledMapRenderer(tiledMap);
 		collisionLayer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
-		
+
 
 		// timeLimit may be different for each level ?
 		timeLimit = 180;
-		
-		
+
+
 		setWalls();
-		
+
 		thisLevel = this;
 		setEntities(levelNumber);
 	}
@@ -69,7 +66,7 @@ public class Level {
 			enemies.add(new Enemy(new Texture(enemy1), 10, 0, 10, 3));
 		}
 	}
-	
+
 	public void update() {
 		player.update();
 //		if (enemies.size() != 0) {
@@ -94,7 +91,7 @@ public class Level {
 				enemy.draw(batch);
 			}
 //		}
-		
+
 	}
 
 	public List<Rectangle> getWalls() {
@@ -141,7 +138,7 @@ public class Level {
 	public Rectangle getPlayerRectangle() {
 		return player.getRectangle();
 	}
-	
+
 	public int getTileSize() {
 		return collisionLayer.getWidth();
 	}
