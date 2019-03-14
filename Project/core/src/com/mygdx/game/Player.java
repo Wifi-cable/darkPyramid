@@ -1,19 +1,16 @@
 package com.mygdx.game;
 
-import java.util.List;
-import java.util.WeakHashMap;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.sun.deploy.net.proxy.WIExplorerAutoProxyHandler;
-import com.sun.javafx.scene.traversal.Direction;
-import jdk.management.resource.internal.inst.SocketOutputStreamRMHooks;
+
+import java.util.List;
 
 import static com.mygdx.game.Player.Directions.*;
 
@@ -31,6 +28,7 @@ public class Player {
     private boolean hasFailed;
     private boolean hasWon;
     private float elapsedTime = 0;
+
 
     public Player() {
         currentLevel = Level.thisLevel;
