@@ -32,8 +32,8 @@ public class Player {
     private boolean hasWon;
     private float elapsedTime = 0;
 
-    public Player(Level level) {
-        currentLevel = level;
+    public Player() {
+        currentLevel = Level.thisLevel;
         initTextures();
     }
 
@@ -166,5 +166,9 @@ public class Player {
         WEST,
         EAST,
 
+    }
+
+    public Rectangle getRectangle() {
+        return sprite.getBoundingRectangle();
     }
 }
