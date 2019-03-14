@@ -8,8 +8,8 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "Dark Pyramid";
-		config.width = 1600;
-		config.height = 1300;
+		config.width = 800;
+		config.height = 650;
 		config.resizable = false;
 		new LwjglApplication(new MyGdxGame(), config);
 	}
