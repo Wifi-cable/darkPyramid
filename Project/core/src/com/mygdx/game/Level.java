@@ -20,7 +20,8 @@ public class Level {
 	public Level(int levelNumber) {
 		switch (levelNumber) {
 		case 1: {
-			tiledMap = new TmxMapLoader().load("prototype.tmx");
+			//tiledMap = new TmxMapLoader().load("prototype1.tmx");
+			tiledMap = new TmxMapLoader().load("cuteLevel3.tmx");
 		}
 			break;
 		case 2: {
