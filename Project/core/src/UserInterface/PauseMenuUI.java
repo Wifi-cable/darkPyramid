@@ -10,8 +10,8 @@ public class PauseMenuUI implements UIinterface {
 	private SimpleButton menuButton;
 	
 	public PauseMenuUI() {
-		continueButton = new SimpleButton(100, 50, 300,75,com.mygdx.game.MyGdxGame.txt);
-		menuButton = new SimpleButton(100, 150,300,75,com.mygdx.game.MyGdxGame.txt);
+		continueButton = new SimpleButton(0.3f, 0.6f, 0.4f, 0.1f, TextureLoader.continueButton);
+		menuButton = new SimpleButton(0.3f, 0.45f, 0.4f, 0.1f, TextureLoader.menuButton);
 	}
 	@Override
 	public GameState handleInput() {

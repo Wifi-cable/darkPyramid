@@ -33,6 +33,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	@Override
 	public void create() {
+		TextureLoader.loadAllTextures();
 		font = new BitmapFont();
 		font.setColor(Color.WHITE);
 		font.getData().setScale(2);
@@ -67,6 +68,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	@Override
 	public void dispose() {
+		TextureLoader.disposeAllTextures();
 		batch.dispose();
 		font.dispose();
 		txt.dispose();

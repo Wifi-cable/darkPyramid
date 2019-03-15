@@ -2,14 +2,20 @@ package UserInterface;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.GameState;
 
 public class LevelOverUI implements UIinterface {
+	private Sprite bgSprite;
 	private int playedLevel;
 	private boolean hasWon;
 	private boolean lastLevelWon;
 	private int nextLevel;
+	public LevelOverUI() {
+		bgSprite = new Sprite(TextureLoader.background);
+		bgSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+	}
 
 	@Override
 	public GameState handleInput() {
@@ -25,6 +31,7 @@ public class LevelOverUI implements UIinterface {
 
 	@Override
 	public void render(SpriteBatch batch) {
+		bgSprite.draw(batch);
 		com.mygdx.game.MyGdxGame.font.draw(batch, "level over, space to continue", 100, 300);
 	}
 

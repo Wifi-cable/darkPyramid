@@ -3,7 +3,6 @@ package UserInterface;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -24,11 +23,11 @@ public class LevelUI implements UIinterface {
 
 	public LevelUI() {
 		healthbar = new Healthbar();
-		pauseButton = new SimpleButton(700, 10, 90, 40, com.mygdx.game.MyGdxGame.txt);
+		pauseButton = new SimpleButton(0.83f,0.93f , 0.15f, 0.05f, com.mygdx.game.MyGdxGame.txt);
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.update();
-		darkLayer = new Sprite(new Texture(Gdx.files.internal("UIelements/darkLayer.png")));
+		darkLayer = new Sprite(TextureLoader.darkLayer);
 	}
 
 	@Override
@@ -100,11 +99,10 @@ public class LevelUI implements UIinterface {
 		int count;
 		float x = 100;
 		float y = 610;
-		Texture heart = new Texture(Gdx.files.internal("UIelements/pixelHeart.png"));
 		Sprite heartSprite;
 
 		public Healthbar() {
-			heartSprite = new Sprite(heart);
+			heartSprite = new Sprite(TextureLoader.pixelHeart);
 		}
 
 		void render(SpriteBatch batch) {
