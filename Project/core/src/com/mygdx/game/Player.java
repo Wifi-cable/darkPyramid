@@ -58,7 +58,7 @@ public class Player {
 
 
         sprite = new Sprite(texturRegWalkDown[1], 32, 48, 32, 48);
-        sprite.setPosition(5, 5);
+        sprite.setPosition(40, 40);
 
         aniWalkDown = new Animation(0.3f, texturRegWalkDown);
         aniWalkUp = new Animation(0.3f, texturRegWalkUp);

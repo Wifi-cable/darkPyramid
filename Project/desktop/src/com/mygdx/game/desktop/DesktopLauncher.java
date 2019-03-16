@@ -10,7 +10,7 @@ public class DesktopLauncher {
 		config.title = "Dark Pyramid";
 		config.width = 800;
 		config.height = 650;
-		config.resizable = false;
+		config.resizable = true;
 		new LwjglApplication(new MyGdxGame(), config);
 	}
 	
