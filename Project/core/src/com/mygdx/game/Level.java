@@ -1,9 +1,13 @@
 package com.mygdx.game;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
@@ -11,9 +15,6 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Level {
 	private TiledMap tiledMap;
@@ -30,28 +31,21 @@ public class Level {
 	public Level(int levelNumber) {
 		switch (levelNumber) {
 		case 1: {
-			tiledMap = new TmxMapLoader().load("Maps/cuteLevel3.tmx");
-
-			//duplicate Code because of the enemy parameter (little bit ugly)
-			tiledmaprenderer = new OrthogonalTiledMapRenderer(tiledMap);
-			collisionLayer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
-
-			Pixmap enemy1 = new Pixmap(30, 30, Pixmap.Format.RGBA8888);
-			enemy1.setColor(Color.BLUE);
-			enemy1.fill();
-			enemies.add(new Enemy(new Texture(enemy1), 10, 0, 10, 3, (int) collisionLayer.getTileWidth()));
+			tiledMap = new TmxMapLoader().load("final-Level1.tmx");
 		}
 			break;
 		case 2: {
 			tiledMap = new TmxMapLoader().load("prototype2.tmx");
 
-			tiledmaprenderer = new OrthogonalTiledMapRenderer(tiledMap);
-			collisionLayer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
-
 		}
 			break;
 		default:
+			;
 		}
+
+		tiledmaprenderer = new OrthogonalTiledMapRenderer(tiledMap);
+		collisionLayer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
+
 
 		// timeLimit may be different for each level ?
 		timeLimit = 180;
@@ -63,24 +57,23 @@ public class Level {
 		setEntities(levelNumber);
 	}
 
-
 	public void setEntities(int levelNumber) {
 		player = new Player();
 		if(levelNumber == 1) {
 			Pixmap enemy1 = new Pixmap(30, 30, Pixmap.Format.RGBA8888);
 			enemy1.setColor(Color.BLUE);
 			enemy1.fill();
-			enemies.add(new Enemy(new Texture(enemy1), 10, 0, 10, 3,40));
+			enemies.add(new Enemy(new Texture(enemy1), 10, 0, 10, 3));
 		}
 	}
 
 	public void update() {
 		player.update();
-		if (enemies.size() != 0) {
+//		if (enemies.size() != 0) {
 			for (Enemy enemy : enemies) {
 				enemy.update();
 			}
-		}
+//		}
 	}
 
 	public void setView(OrthographicCamera camera) {
@@ -144,6 +137,10 @@ public class Level {
 
 	public Rectangle getPlayerRectangle() {
 		return player.getRectangle();
+	}
+
+	public int getTileSize() {
+		return collisionLayer.getWidth();
 	}
 
 }
