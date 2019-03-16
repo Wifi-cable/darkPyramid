@@ -1,13 +1,9 @@
 package com.mygdx.game;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
@@ -15,6 +11,9 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Level {
 	private TiledMap tiledMap;
@@ -31,7 +30,7 @@ public class Level {
 	public Level(int levelNumber) {
 		switch (levelNumber) {
 		case 1: {
-			tiledMap = new TmxMapLoader().load("cuteLevel2.tmx");
+            tiledMap = new TmxMapLoader().load("final-Level1.tmx");
 		}
 			break;
 		case 2: {
@@ -40,8 +39,7 @@ public class Level {
 		}
 			break;
 		default:
-			;
-		}
+        }
 
 		tiledmaprenderer = new OrthogonalTiledMapRenderer(tiledMap);
 		collisionLayer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
