@@ -118,6 +118,6 @@ public class LevelUI implements UIinterface {
 			count = numberOfHearts;
 		}
 	}
-	
+
 
 }
