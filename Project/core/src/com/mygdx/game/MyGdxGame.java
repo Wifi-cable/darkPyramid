@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import UserInterface.*;
+
 public class MyGdxGame extends ApplicationAdapter {
 	
 	// for testing purpose	
@@ -128,6 +130,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			levelOver.initialize(playedLevel, won);
 		} break;
 		default:
+			;
 		}
 
 	}

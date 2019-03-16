@@ -11,7 +11,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
@@ -32,13 +34,17 @@ public class Level {
 	private int health;
 	private Level thisLevel;
 
+//	private float firstTileX;
+//	private float firstTileY;
+	private TiledMapTile firstTile;
+
 	private boolean won = false;
 	private boolean lost = false;
 
 	public Level(int levelNumber) {
 		switch (levelNumber) {
 		case 1: {
-			tiledMap = new TmxMapLoader().load("Maps/cuteLevel3.tmx");
+			tiledMap = new TmxMapLoader().load("Maps/final-level2.tmx");
 		}
 			break;
 		case 2: {
@@ -50,6 +56,7 @@ public class Level {
 		}
 		tiledmaprenderer = new OrthogonalTiledMapRenderer(tiledMap);
 		collisionLayer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
+		firstTile = collisionLayer.getCell(0, 0).getTile();
 
 		// timeLimit may be different for each level ?
 		timeLimit = 180;
@@ -62,12 +69,12 @@ public class Level {
 	}
 
 	public void setEntities(int levelNumber) {
-		player = new Player(thisLevel);
-		if(levelNumber == 1) {
+		player = new Player(thisLevel, new Texture("SpriteSheets/viola.png"), 1, 15);
+		if (levelNumber == 1) {
 //
-			enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 10, 0, 10, 3));
-			for(Enemy enemy : enemies) {
-			enemyRectangles.add(enemy.getRectangle());
+			enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 11, 1, 11, 6));
+			for (Enemy enemy : enemies) {
+				enemyRectangles.add(enemy.getRectangle());
 			}
 		}
 	}
@@ -128,7 +135,7 @@ public class Level {
 
 	public void setHealthOfPlayer(int newHealth) {
 		this.health = newHealth;
-		if(this.health == 0) {
+		if (this.health == 0) {
 			lost = true;
 		}
 	}
@@ -151,6 +158,18 @@ public class Level {
 
 	public Rectangle getPlayerRectangle() {
 		return player.getRectangle();
+	}
+
+	public TiledMapTile getFirstTile() {
+		return firstTile;
+	}
+
+//	public int getTileAmountX() {
+//		return collisionLayer.getWidth();
+//	}
+
+	public float getTileAmountY() {
+		return collisionLayer.getHeight();
 	}
 
 	public float getTileSize() {

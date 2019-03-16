@@ -36,8 +36,8 @@ public class Enemy extends Sprite {
 	private float elapsedTime = 0;
 
 	// so many numbers and first position not clear because of header
-	private int firstX = 0;
-	private int firstY = Gdx.graphics.getHeight() - 80;
+//	private float firstX;
+//	private float firstY;
 	private float startX;
 	private float startY;
 	private float endX;
@@ -77,6 +77,8 @@ public class Enemy extends Sprite {
 		animation = new Animation(0.3f, texturRegWalkRight);
 
 		float tileSize = level.getTileSize();
+		float firstX = 0;
+		float firstY = (level.getTileAmountY() - 1f) * tileSize;
 
 		this.startX = firstX + startTileX * tileSize + (tileSize - sprite.getWidth()) / 2;
 		this.startY = firstY - startTileY * tileSize - (tileSize - sprite.getHeight()) / 2;

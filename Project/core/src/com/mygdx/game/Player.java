@@ -32,15 +32,15 @@ public class Player {
 	private long invincibleTime = 0;
 	Rectangle playerRectangle;
 
-	public Player(Level level) {
+//	private float firstX;
+//	private float firstY;
+//	private float startX;
+//	private float startY;
+
+	public Player(Level level, Texture spriteSheet, int startTileX, int startTileY) {
 		currentLevel = level;
-		initTextures();
-	}
-
-	public void initTextures() {
-
-		spritessheet = new Texture("SpriteSheets/viola.png");
-//        textureRegion = new TextureRegion(spritessheet, 0, 0, 96, 192);
+		spritessheet = spriteSheet;
+//      textureRegion = new TextureRegion(spritessheet, 0, 0, 96, 192);
 		TextureRegion[][] tmpFrames = TextureRegion.split(spritessheet, 32, 48);
 		texturRegWalkDown = new TextureRegion[4];
 		texturRegWalkLeft = new TextureRegion[4];
@@ -49,7 +49,7 @@ public class Player {
 		int index = 0;
 
 		for (int j = 0; j < 3; j++) {
-//            System.out.println(tmpFrames.length);
+//          System.out.println(tmpFrames.length);
 			texturRegWalkDown[index] = tmpFrames[0][j];
 			texturRegWalkLeft[index] = tmpFrames[1][j];
 			texturRegWalkRight[index] = tmpFrames[2][j];
@@ -62,7 +62,15 @@ public class Player {
 		texturRegWalkUp[index] = tmpFrames[3][1];
 
 		sprite = new Sprite(texturRegWalkDown[1], 32, 48, 32, 48);
-		sprite.setPosition(5, 5);
+
+		float tileSize = level.getTileSize();
+		float firstX = level.getFirstTile().getTextureRegion().getRegionX();
+		float firstY = level.getFirstTile().getTextureRegion().getRegionY() + (level.getTileAmountY() - 1f) * tileSize;
+
+		float startX = firstX + startTileX * tileSize + (tileSize - sprite.getWidth()) / 2;
+		float startY = firstY - startTileY * tileSize - (tileSize - sprite.getHeight()) / 2;
+		sprite.setPosition(startX, startY);
+
 		playerRectangle = new Rectangle(sprite.getX(), sprite.getY(), currentLevel.getTileSize() - 10,
 				currentLevel.getTileSize() - 10);
 
@@ -73,6 +81,10 @@ public class Player {
 		animation = new Animation(0.3f, texturRegWalkRight);
 
 		currentHealth = currentLevel.getHealthOfPlayer();
+	}
+
+	public void initTextures() {
+
 	}
 
 	public void draw(Batch spritebatch) {
@@ -100,16 +112,6 @@ public class Player {
 		float delta = Gdx.graphics.getDeltaTime();
 		velocity.x = 0;
 		velocity.y = 0;
-		if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-			velocity.y = speed;
-			walkDirection = NORTH;
-			animation = aniWalkUp;
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-			velocity.y = -speed;
-			walkDirection = SOUTH;
-			animation = aniWalkDown;
-		}
 		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
 			velocity.x = speed;
 			walkDirection = EAST;
@@ -121,6 +123,17 @@ public class Player {
 			walkDirection = WEST;
 			animation = aniWalkLeft;
 		}
+		if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+			velocity.y = speed;
+			walkDirection = NORTH;
+			animation = aniWalkUp;
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+			velocity.y = -speed;
+			walkDirection = SOUTH;
+			animation = aniWalkDown;
+		}
+
 		if (!Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
 			switch (walkDirection) {
 			case NORTH:
@@ -157,7 +170,7 @@ public class Player {
 			sprite.setY(oldY);
 		}
 
-
+		
 		// still invincible
 		if ((System.currentTimeMillis() - invincibleTime) / 1000 > 3 || invincibleTime == 0) {
 			// not invincible
