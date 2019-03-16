@@ -24,11 +24,12 @@ public class LevelUI implements UIinterface {
 
 	public LevelUI() {
 		healthbar = new Healthbar();
-		pauseButton = new SimpleButton(700, 10, 90, 40, com.mygdx.game.MyGdxGame.txt);
+	
+		pauseButton = new SimpleButton(0.83f, 0.94f, 0.15f, 0.05f, TextureLoader.pauseButton);
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.update();
-//		darkLayer = new Sprite(new Texture(Gdx.files.internal("UIelements/darkLayer.png")));
+//		darkLayer = new Sprite(TextureLoader.darkLayer);
 	}
 
 	@Override
@@ -76,7 +77,8 @@ public class LevelUI implements UIinterface {
 		int minutes = ((int) timeLimit) / 60;
 		int seconds = ((int) timeLimit) % 60;
 		pauseButton.render(batch);
-		com.mygdx.game.MyGdxGame.font.draw(batch, "" + minutes + ":" + seconds, 10, 640);
+		com.mygdx.game.MyGdxGame.font.draw(batch, "Level " + currentLevel + "   " + minutes + ":" + seconds, 10,
+				Gdx.graphics.getHeight() - 10);
 		healthbar.render(batch);
 	}
 
@@ -98,13 +100,13 @@ public class LevelUI implements UIinterface {
 
 	private class Healthbar {
 		int count;
-		float x = 100;
-		float y = 610;
-		Texture heart = new Texture(Gdx.files.internal("UIelements/pixelHeart.png"));
+		float x = 200;
+		float y = Gdx.graphics.getHeight() - 40;
+//		Texture heart = new Texture(Gdx.files.internal("UIelements/pixelHeart.png"));
 		Sprite heartSprite;
 
 		public Healthbar() {
-			heartSprite = new Sprite(heart);
+			heartSprite = new Sprite(TextureLoader.pixelHeart);
 		}
 
 		void render(SpriteBatch batch) {
@@ -118,6 +120,5 @@ public class LevelUI implements UIinterface {
 			count = numberOfHearts;
 		}
 	}
-
 
 }
