@@ -24,10 +24,8 @@ public class Enemy extends Sprite {
 
 	private Vector2 velocity = new Vector2();
 	private Rectangle enemy;
-//	private ArrayList<Rectangle> enemyRectangles = new ArrayList<Rectangle>();
 
 	private float speed = 50;
-	private Sprite sprite;
 	private Texture spritessheet;
 	private TextureRegion textureRegion;
 	private TextureRegion[] texturRegWalkUp, texturRegWalkLeft, texturRegWalkRight, texturRegWalkDown;
@@ -35,21 +33,15 @@ public class Enemy extends Sprite {
 	private Animation<Sprite> animation, aniWalkUp, aniWalkDown, aniWalkRight, aniWalkLeft;
 	private float elapsedTime = 0;
 
-	// so many numbers and first position not clear because of header
-//	private float firstX;
-//	private float firstY;
+
 	private float startX;
 	private float startY;
 	private float endX;
 	private float endY;
 
 
-//	private boolean xDifference;
-//	private boolean yDifference;
-
 	public Enemy(Level level, Texture spriteSheet, int startTileX, int startTileY, int endTileX, int endTileY) {
-		textureRegion = new TextureRegion(spriteSheet, 0, 0, 144, 192);
-		TextureRegion[][] tmpFrames = TextureRegion.split(spriteSheet, 48, 48);
+		TextureRegion[][] tmpFrames = TextureRegion.split(spriteSheet, spriteSheet.getWidth()/3, spriteSheet.getHeight()/4);
 		texturRegWalkDown = new TextureRegion[4];
 		texturRegWalkLeft = new TextureRegion[4];
 		texturRegWalkRight = new TextureRegion[4];
@@ -68,7 +60,9 @@ public class Enemy extends Sprite {
 		texturRegWalkRight[index] = tmpFrames[2][1];
 		texturRegWalkUp[index] = tmpFrames[3][1];
 
-		sprite = new Sprite(texturRegWalkDown[1], 48, 48, 48, 48);
+		
+		int spriteWidth = spriteSheet.getWidth() / 3;
+		int spriteHeight = spriteSheet.getHeight() / 4;
 
 		aniWalkDown = new Animation(0.3f, texturRegWalkDown);
 		aniWalkUp = new Animation(0.3f, texturRegWalkUp);
@@ -77,34 +71,32 @@ public class Enemy extends Sprite {
 		animation = new Animation(0.3f, texturRegWalkRight);
 
 		float tileSize = level.getTileSize();
-		float firstX = 0;
-		float firstY = (level.getTileAmountY() - 1f) * tileSize;
+		float firstX = level.getFirstTile().getOffsetX();
+		float firstY = level.getFirstTile().getOffsetY() + (level.getTileAmountY() - 1f) * tileSize;
 
-		this.startX = firstX + startTileX * tileSize + (tileSize - sprite.getWidth()) / 2;
-		this.startY = firstY - startTileY * tileSize - (tileSize - sprite.getHeight()) / 2;
-		this.endX = firstX + endTileX * tileSize + (tileSize - sprite.getWidth()) / 2;
-		this.endY = firstY - endTileY * tileSize - (tileSize - sprite.getHeight()) / 2;
+		//positioning and centering the sprite/ rectangle
+		this.startX = firstX + startTileX * tileSize + (tileSize - spriteWidth) / 2;
+		this.startY = firstY - startTileY * tileSize - (tileSize - spriteHeight) / 2;
+		this.endX = firstX + endTileX * tileSize + (tileSize - spriteWidth) / 2;
+		this.endY = firstY - endTileY * tileSize - (tileSize - spriteHeight) / 2;
 
-		sprite.setPosition(startX, startY);
-		this.enemy = new Rectangle(sprite.getX(), sprite.getY(), tileSize, tileSize);
-//		enemyRectangles.add(this.enemy);
+		this.enemy = new Rectangle(startX, startY, tileSize, tileSize);
 	}
 
 	@Override
 	public void draw(Batch spritebatch) {
 		elapsedTime += Gdx.graphics.getDeltaTime();
 
-		spritebatch.draw(animation.getKeyFrame(elapsedTime, true), sprite.getX(), sprite.getY());
+		spritebatch.draw(animation.getKeyFrame(elapsedTime, true), enemy.getX(), enemy.getY());
 	}
 
 	public void update() {
 
 		float delta = Gdx.graphics.getDeltaTime();
-//		System.out.println(sprite.getY());
 		if (startX < endX) {
 			walkDirection = EAST;
 			animation = aniWalkRight;
-			if (sprite.getX() < endX) {
+			if (enemy.getX() < endX) {
 				velocity.x = speed;
 			} else {
 				velocity.x = -speed;
@@ -118,7 +110,7 @@ public class Enemy extends Sprite {
 		if (startX > endX) {
 			walkDirection = WEST;
 			animation = aniWalkLeft;
-			if (sprite.getX() > endX) {
+			if (enemy.getX() > endX) {
 				velocity.x = -speed;
 			} else {
 				velocity.x = speed;
@@ -132,7 +124,7 @@ public class Enemy extends Sprite {
 		if (startY < endY) {
 			walkDirection = NORTH;
 			animation = aniWalkUp;
-			if (sprite.getY() < endY) {
+			if (enemy.getY() < endY) {
 				velocity.y = speed;
 			} else {
 				velocity.y = -speed;
@@ -144,7 +136,7 @@ public class Enemy extends Sprite {
 		if (startY > endY) {
 			walkDirection = SOUTH;
 			animation = aniWalkDown;
-			if (sprite.getY() > endY) {
+			if (enemy.getY() > endY) {
 				velocity.y = -speed;
 			} else {
 				velocity.y = speed;
@@ -154,10 +146,9 @@ public class Enemy extends Sprite {
 			}
 		}
 
-		sprite.setX(sprite.getX() + velocity.x * delta);
-		sprite.setY(sprite.getY() + velocity.y * delta);
+//		
 
-		enemy.setPosition(sprite.getX(), sprite.getY());
+		enemy.setPosition(enemy.getX() + velocity.x * delta, enemy.getY() + velocity.y * delta);
 
 	}
 

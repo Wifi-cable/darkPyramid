@@ -16,7 +16,7 @@ import static com.mygdx.game.Player.Directions.*;
 
 public class Player {
 
-	private Sprite sprite;
+
 	private Texture spritessheet;
 	private TextureRegion textureRegion;
 	private TextureRegion[] texturRegWalkUp, texturRegWalkLeft, texturRegWalkRight, texturRegWalkDown;
@@ -32,16 +32,11 @@ public class Player {
 	private long invincibleTime = 0;
 	Rectangle playerRectangle;
 
-//	private float firstX;
-//	private float firstY;
-//	private float startX;
-//	private float startY;
 
 	public Player(Level level, Texture spriteSheet, int startTileX, int startTileY) {
 		currentLevel = level;
 		spritessheet = spriteSheet;
-//      textureRegion = new TextureRegion(spritessheet, 0, 0, 96, 192);
-		TextureRegion[][] tmpFrames = TextureRegion.split(spritessheet, 32, 48);
+		TextureRegion[][] tmpFrames = TextureRegion.split(spriteSheet, spriteSheet.getWidth()/3, spriteSheet.getHeight()/4);
 		texturRegWalkDown = new TextureRegion[4];
 		texturRegWalkLeft = new TextureRegion[4];
 		texturRegWalkRight = new TextureRegion[4];
@@ -49,7 +44,6 @@ public class Player {
 		int index = 0;
 
 		for (int j = 0; j < 3; j++) {
-//          System.out.println(tmpFrames.length);
 			texturRegWalkDown[index] = tmpFrames[0][j];
 			texturRegWalkLeft[index] = tmpFrames[1][j];
 			texturRegWalkRight[index] = tmpFrames[2][j];
@@ -61,17 +55,18 @@ public class Player {
 		texturRegWalkRight[index] = tmpFrames[2][1];
 		texturRegWalkUp[index] = tmpFrames[3][1];
 
-		sprite = new Sprite(texturRegWalkDown[1], 32, 48, 32, 48);
+		int spriteWidth = spriteSheet.getWidth() / 3;
+		int spriteHeight = spriteSheet.getHeight() / 4;
 
 		float tileSize = level.getTileSize();
-		float firstX = level.getFirstTile().getTextureRegion().getRegionX();
-		float firstY = level.getFirstTile().getTextureRegion().getRegionY() + (level.getTileAmountY() - 1f) * tileSize;
+		float firstX = level.getFirstTile().getOffsetX();
+		float firstY = level.getFirstTile().getOffsetY() + (level.getTileAmountY() - 1f) * tileSize;
 
-		float startX = firstX + startTileX * tileSize + (tileSize - sprite.getWidth()) / 2;
-		float startY = firstY - startTileY * tileSize - (tileSize - sprite.getHeight()) / 2;
-		sprite.setPosition(startX, startY);
+		//positioning and centering the sprite/ rectangle
+		float startX = firstX + startTileX * tileSize + (tileSize - spriteWidth) / 2;
+		float startY = firstY - startTileY * tileSize - (tileSize - spriteHeight) / 2;
 
-		playerRectangle = new Rectangle(sprite.getX(), sprite.getY(), currentLevel.getTileSize() - 10,
+		playerRectangle = new Rectangle(startX, startY, currentLevel.getTileSize() - 10,
 				currentLevel.getTileSize() - 10);
 
 		aniWalkDown = new Animation(0.3f, texturRegWalkDown);
@@ -90,12 +85,11 @@ public class Player {
 	public void draw(Batch spritebatch) {
 		elapsedTime += Gdx.graphics.getDeltaTime();
 
-		spritebatch.draw(animation.getKeyFrame(elapsedTime, true), sprite.getX(), sprite.getY());
+		spritebatch.draw(animation.getKeyFrame(elapsedTime, true), playerRectangle.getX(), playerRectangle.getY());
 
 	}
 
 	private boolean hasCollidedWith(List<Rectangle> objects) {
-		playerRectangle.setPosition(sprite.getX(), sprite.getY());
 		for (Rectangle r : objects) {
 			if (playerRectangle.overlaps(r))
 				return true;
@@ -133,7 +127,7 @@ public class Player {
 			walkDirection = SOUTH;
 			animation = aniWalkDown;
 		}
-		
+
 		if (!Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
 			switch (walkDirection) {
 			case NORTH:
@@ -150,45 +144,36 @@ public class Player {
 				break;
 			}
 		}
-		float oldX = sprite.getX();
-		float oldY = sprite.getY();
+		float oldX = playerRectangle.getX();
+		float oldY = playerRectangle.getY();
 
 		// maybe setting X and Y at the same time? then we only have to check 2 times
 		// not 4
 
 		// setting X
-		sprite.setX(sprite.getX() + velocity.x * delta);
+		playerRectangle.setX(playerRectangle.getX() + velocity.x * delta);
 		// checking X on Walls
 		if (hasCollidedWith(currentLevel.getWalls())) {
-			sprite.setX(oldX);
+			playerRectangle.setX(oldX);
 		}
 
 		// setting Y
-		sprite.setY(sprite.getY() + velocity.y * delta);
+		playerRectangle.setY(playerRectangle.getY() + velocity.y * delta);
 		// checking Y on walls
 		if (hasCollidedWith(currentLevel.getWalls())) {
-			sprite.setY(oldY);
+			playerRectangle.setY(oldY);
 		}
 
+		
 		// still invincible
 		if ((System.currentTimeMillis() - invincibleTime) / 1000 > 3 || invincibleTime == 0) {
 			// not invincible
 			if (hasCollidedWith(currentLevel.getEnemyRectangles())) {
-				sprite.setX(oldX);
-
+				playerRectangle.setX(oldX);
+				playerRectangle.setX(oldY);
 				currentLevel.setHealthOfPlayer(--currentHealth);
 				invincibleTime = System.currentTimeMillis();
 			}
-//			else {
-//
-//				if (hasCollidedWith(currentLevel.getEnemyRectangles())) {
-//					System.out.println("HEY3");
-//					sprite.setY(oldY);
-//
-//					currentLevel.setHealthOfPlayer(currentHealth--);
-//					invincibleTime = System.currentTimeMillis();
-//				}
-//			}
 		}
 	}
 
@@ -206,6 +191,6 @@ public class Player {
 	}
 
 	public Rectangle getRectangle() {
-		return sprite.getBoundingRectangle();
+		return playerRectangle;
 	}
 }
