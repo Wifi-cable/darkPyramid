@@ -1,13 +1,9 @@
 package com.mygdx.game;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
@@ -34,7 +30,7 @@ public class Level {
 	public Level(int levelNumber) {
 		switch (levelNumber) {
 		case 1: {
-            tiledMap = new TmxMapLoader().load("Maps/cuteLevel3.tmx");
+            tiledMap = new TmxMapLoader().load("Maps/final-Level1.tmx");
 		}
 			break;
 		case 2: {
