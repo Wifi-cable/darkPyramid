@@ -26,7 +26,7 @@ public class ControlsUI implements UIinterface {
 	@Override
 	public void render(SpriteBatch batch) {
 		bgSprite.draw(batch);
-		com.mygdx.game.MyGdxGame.font.draw(batch, "Controls here, backspace", 100, 300);
+//		com.mygdx.game.MyGdxGame.font.draw(batch, "Controls here, backspace", 100, 300);
 		backButton.render(batch);
 	}
 }

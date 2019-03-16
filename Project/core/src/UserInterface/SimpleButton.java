@@ -46,7 +46,7 @@ public class SimpleButton {
 
 	public void render(SpriteBatch batch) {
 		if (isHovered())
-			sprite.draw(batch, 100);
+			sprite.draw(batch, 70);
 		else
 			sprite.draw(batch);
 	}

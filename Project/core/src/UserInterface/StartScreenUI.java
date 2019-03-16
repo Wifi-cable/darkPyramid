@@ -15,7 +15,7 @@ public class StartScreenUI implements UIinterface{
 	Sprite bgSprite;
 	
 	public StartScreenUI() {
-		bgSprite = new Sprite(TextureLoader.background);
+		bgSprite = new Sprite(TextureLoader.startscreen);
 		bgSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         
 	}
@@ -30,7 +30,7 @@ public class StartScreenUI implements UIinterface{
 	@Override
 	public void render(SpriteBatch batch) {
 		bgSprite.draw(batch);
-		com.mygdx.game.MyGdxGame.font.draw(batch, "Startscreen, press space ", 100, 300);
+		//com.mygdx.game.MyGdxGame.font.draw(batch, "Startscreen, press space ", 100, 300);
 	}
 
 }

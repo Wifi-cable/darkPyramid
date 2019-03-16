@@ -8,6 +8,7 @@ import com.mygdx.game.GameState;
 
 public class MenuUI implements UIinterface {
 	Sprite bgSprite;
+	Sprite menuTitel;
 	SimpleButton controlsButton;
 	SimpleButton levelSelectionButton;
 	SimpleButton creditsButton;
@@ -15,9 +16,11 @@ public class MenuUI implements UIinterface {
 	public MenuUI() {
 		bgSprite = new Sprite(TextureLoader.background);
 		bgSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		levelSelectionButton = new SimpleButton(0.3f, 0.6f, 0.4f, 0.1f, TextureLoader.levelsButton);
-		controlsButton = new SimpleButton(0.3f, 0.45f, 0.4f, 0.1f, TextureLoader.controlsButton);
-		creditsButton = new SimpleButton(0.3f, 0.3f, 0.4f, 0.1f, TextureLoader.creditsButton);
+		menuTitel = new Sprite(TextureLoader.menu);
+		menuTitel.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		levelSelectionButton = new SimpleButton(0.3f, 0.55f, 0.4f, 0.1f, TextureLoader.levelsButton);
+		controlsButton = new SimpleButton(0.3f, 0.40f, 0.4f, 0.1f, TextureLoader.controlsButton);
+		creditsButton = new SimpleButton(0.3f, 0.25f, 0.4f, 0.1f, TextureLoader.creditsButton);
 	}
 
 	@Override
@@ -35,7 +38,8 @@ public class MenuUI implements UIinterface {
 	@Override
 	public void render(SpriteBatch batch) {
 		bgSprite.draw(batch);
-		com.mygdx.game.MyGdxGame.font.draw(batch, "Menu, L for levels, C for controls, R for credits", 100, 100);
+		menuTitel.draw(batch);
+//		com.mygdx.game.MyGdxGame.font.draw(batch, "Menu, L for levels, C for controls, R for credits", 100, 100);
 		controlsButton.render(batch);
 		levelSelectionButton.render(batch);
 		creditsButton.render(batch);
