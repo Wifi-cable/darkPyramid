@@ -15,7 +15,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	// for testing purpose	
 	public static BitmapFont font;
 	public static Texture txt;
-	public static final int numberofLevels = 2;
+	public static final int numberofLevels = 5;
 	public static int unlockedLevels = 1;
 	
 	SpriteBatch batch;
@@ -33,12 +33,13 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	@Override
 	public void create() {
+		TextureLoader.loadAllTextures();
 		font = new BitmapFont();
 		font.setColor(Color.WHITE);
 		font.getData().setScale(2);
 		txt = new Texture(Gdx.files.internal("UIelements/logo.png"));
 		Music mp3Music = Gdx.audio.newMusic(Gdx.files.internal("Music/bgMusic.mp3"));
-		mp3Music.play();
+//		mp3Music.play();
 		
 		batch = new SpriteBatch();
 		
@@ -67,13 +68,14 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	@Override
 	public void dispose() {
+		TextureLoader.disposeAllTextures();
 		batch.dispose();
 		font.dispose();
 		txt.dispose();
 	}
 	
 	private void clear() {
-		Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
+		Gdx.gl.glClearColor(0f, 0f, 0f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	}
 	

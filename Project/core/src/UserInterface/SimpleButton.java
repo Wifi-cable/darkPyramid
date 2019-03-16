@@ -14,18 +14,18 @@ public class SimpleButton {
 	
 	//for testing purpose
 	public SimpleButton() {
-		this(10, 10, 50, 50, com.mygdx.game.MyGdxGame.txt);
+		this(0.1f, 0.1f, 0.2f, 0.2f, com.mygdx.game.MyGdxGame.txt);
 	}
 	
-	//x and y coordinates have origin at top left corner of window
+	//x and y coordinates have origin at bottom left corner of window, relative coordinates: 1 equals 100% 
 	public SimpleButton(float x, float y, float width, float height, Texture texture) {
 		this.x = x;
-		this.y = Gdx.graphics.getHeight() - y - height; // because sprite coordinates have origin at bottom left
+		this.y = y;
 		this.width = width;
 		this.height = height;
 		this.sprite = new Sprite(texture);
-		sprite.setSize(this.width, this.height);
-		sprite.setPosition(this.x, this.y);
+		sprite.setSize(this.width*Gdx.graphics.getWidth(), this.height*Gdx.graphics.getHeight());
+		sprite.setPosition(this.x*Gdx.graphics.getWidth(), this.y*Gdx.graphics.getHeight());
 	}
 
 	public boolean isJustPressed() {
@@ -36,8 +36,8 @@ public class SimpleButton {
 	}
 
 	private boolean isHovered() {
-		float xClick = Gdx.input.getX();
-		float yClick = Gdx.graphics.getHeight() - Gdx.input.getY();
+		float xClick = (float) Gdx.input.getX()/Gdx.graphics.getWidth();
+		float yClick = (float) (Gdx.graphics.getHeight() - Gdx.input.getY())/Gdx.graphics.getHeight();
 		if (xClick >= x && xClick <= x + width && yClick >= y && yClick <= y + height)
 			return true;
 		else
@@ -46,7 +46,7 @@ public class SimpleButton {
 
 	public void render(SpriteBatch batch) {
 		if (isHovered())
-			sprite.draw(batch, 100);
+			sprite.draw(batch, 70);
 		else
 			sprite.draw(batch);
 	}
