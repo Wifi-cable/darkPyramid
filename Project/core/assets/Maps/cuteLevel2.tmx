@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="22" height="17" tilewidth="40" tileheight="40" infinite="0" nextlayerid="2" nextobjectid="1">
+ <tileset firstgid="1" source="Tilesets/ColorTiles/tile4.tsx"/>
+ <tileset firstgid="145" source="Tilesets/ColorTiles/wall.tsx"/>
+ <tileset firstgid="146" source="Tilesets/ColorTiles/floor.tsx"/>
+ <tileset firstgid="147" source="Tilesets/ColorTiles/cornerLeft.tsx"/>
+ <tileset firstgid="148" source="Tilesets/ColorTiles/floor6.tsx"/>
+ <tileset firstgid="149" source="Tilesets/ColorTiles/floor5.tsx"/>
+ <tileset firstgid="150" source="Tilesets/ColorTiles/floor4.tsx"/>
+ <tileset firstgid="151" source="Tilesets/ColorTiles/floor3.tsx"/>
+ <tileset firstgid="152" source="Tilesets/ColorTiles/floor7.tsx"/>
+ <tileset firstgid="153" source="Tilesets/ColorTiles/cornerBottom.tsx"/>
+ <tileset firstgid="154" source="Tilesets/ColorTiles/cornerTop.tsx"/>
+ <tileset firstgid="155" source="Tilesets/ColorTiles/cornerRight.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="22" height="17">
+  <data encoding="csv">
+145,145,145,145,145,145,145,145,145,145,145,145,145,145,145,145,145,145,145,145,145,145,
+145,149,147,145,149,146,148,145,149,146,151,146,151,146,146,146,151,148,145,145,145,145,
+145,146,145,145,151,145,146,145,154,145,145,151,145,145,145,145,145,154,145,149,148,145,
+145,146,147,145,146,145,146,148,145,155,146,146,151,151,146,146,147,145,155,146,151,145,
+145,151,145,149,151,145,150,146,145,145,145,145,145,145,145,146,145,153,145,145,146,145,
+145,146,145,150,146,145,145,151,145,149,146,146,151,148,145,150,150,146,145,149,152,145,
+145,146,147,145,146,147,145,151,145,150,151,145,145,150,148,145,151,151,145,151,145,145,
+145,151,145,149,147,145,145,151,147,145,150,146,148,145,150,151,146,152,145,146,145,145,
+145,146,145,151,145,155,146,146,152,145,145,145,150,148,145,145,145,145,145,146,147,145,
+145,146,145,151,148,145,151,145,145,149,146,148,145,146,148,145,149,146,151,152,145,145,
+145,151,145,150,146,145,146,145,149,146,145,146,145,154,151,145,146,145,154,145,145,145,
+145,146,147,145,151,145,151,145,150,151,145,151,147,145,146,145,150,148,145,149,147,145,
+145,146,145,149,146,145,146,147,145,146,145,146,145,155,151,145,145,151,146,152,145,145,
+145,151,145,151,152,145,146,145,149,152,145,151,145,146,145,153,145,146,145,145,145,145,
+145,146,145,146,145,149,151,145,146,145,145,146,145,151,145,146,145,151,145,149,148,145,
+145,150,146,152,145,150,146,146,152,145,150,151,146,152,145,150,146,151,146,151,152,145,
+145,145,145,145,145,145,145,145,145,145,145,145,145,145,145,145,145,145,145,145,145,145
+</data>
+ </layer>
+</map>
