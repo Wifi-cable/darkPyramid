@@ -1,19 +1,16 @@
 package com.mygdx.game;
 
-import java.util.List;
-import java.util.WeakHashMap;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.sun.deploy.net.proxy.WIExplorerAutoProxyHandler;
-import com.sun.javafx.scene.traversal.Direction;
-import jdk.management.resource.internal.inst.SocketOutputStreamRMHooks;
+
+import java.util.List;
 
 import static com.mygdx.game.Player.Directions.*;
 
@@ -32,6 +29,7 @@ public class Player {
     private boolean hasWon;
     private float elapsedTime = 0;
 
+
     public Player() {
         currentLevel = Level.thisLevel;
         initTextures();
@@ -39,9 +37,9 @@ public class Player {
 
     public void initTextures() {
 
-        spritessheet = new Texture("viola.png");
+        spritessheet = new Texture("SpriteSheets/viola.png");
         textureRegion = new TextureRegion(spritessheet, 0, 0, 96, 192);
-        TextureRegion[][] tmpFrames = textureRegion.split(spritessheet, 32, 48);
+        TextureRegion[][] tmpFrames = TextureRegion.split(spritessheet, 32, 48);
         texturRegWalkDown = new TextureRegion[3];
         texturRegWalkLeft = new TextureRegion[3];
         texturRegWalkRight = new TextureRegion[3];
@@ -60,7 +58,7 @@ public class Player {
 
 
         sprite = new Sprite(texturRegWalkDown[1], 32, 48, 32, 48);
-        sprite.setPosition(0, 0);
+        sprite.setPosition(5, 5);
 
         aniWalkDown = new Animation(0.3f, texturRegWalkDown);
         aniWalkUp = new Animation(0.3f, texturRegWalkUp);
