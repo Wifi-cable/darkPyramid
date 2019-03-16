@@ -112,16 +112,6 @@ public class Player {
 		float delta = Gdx.graphics.getDeltaTime();
 		velocity.x = 0;
 		velocity.y = 0;
-		if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-			velocity.y = speed;
-			walkDirection = NORTH;
-			animation = aniWalkUp;
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-			velocity.y = -speed;
-			walkDirection = SOUTH;
-			animation = aniWalkDown;
-		}
 		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
 			velocity.x = speed;
 			walkDirection = EAST;
@@ -133,6 +123,17 @@ public class Player {
 			walkDirection = WEST;
 			animation = aniWalkLeft;
 		}
+		if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+			velocity.y = speed;
+			walkDirection = NORTH;
+			animation = aniWalkUp;
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+			velocity.y = -speed;
+			walkDirection = SOUTH;
+			animation = aniWalkDown;
+		}
+		
 		if (!Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
 			switch (walkDirection) {
 			case NORTH:
