@@ -63,6 +63,7 @@ public class Level {
 		case 4:{tiledMap = new TmxMapLoader().load("Maps/final-Level4.tmx");
 			
 		}
+		break;
 		case 5:{
 			tiledMap = new TmxMapLoader().load("Maps/final-Level5.tmx");
 		}
@@ -85,9 +86,12 @@ public class Level {
 	}
 
 	public void setEntities(int levelNumber) {
-		player = new Player(thisLevel, new Texture("SpriteSheets/viola.png"), 1, 1);
+		player = new Player(thisLevel, new Texture("SpriteSheets/viola.png"), 1, 1);	
+		
 	 switch (levelNumber) { 
 	 	case 1:{
+			player = new Player(thisLevel, new Texture("SpriteSheets/viola.png"), 1, 1);
+	 		
 			enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 11, 1, 11, 6));
 			enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 5, 7, 12, 7));
 			enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 11, 10, 6, 10));
@@ -101,6 +105,8 @@ public class Level {
 	 	break;
 	 	
 	 	case 2:{
+			player = new Player(thisLevel, new Texture("SpriteSheets/viola.png"), 1, 1);
+	 		
 	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 19, 1, 3, 1));
 	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 17, 4, 12, 4));
 	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 3, 4, 10, 4));
@@ -114,15 +120,73 @@ public class Level {
 	 	}
 	 	break;
 	 	
-	 	case 3:{	// is same as level 2 this should not be. also there are two levels named level2 but spelled differenty
+	 	case 3:{	// there are two levels named level2 same level different spelling
+			player = new Player(thisLevel, new Texture("SpriteSheets/viola.png"), 1, 1);
 	 		
 	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 1, 12, 1, 2));
-	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 1, 15, 1, 5));
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 1, 14, 1, 4));
+	 		//enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 4, 9, 4, 13));	//this mummy makes it too hard
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 4, 1, 4, 7));
+	 		//enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 7, 8, 7, 3));
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 6, 8, 6, 15));
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 9, 13, 9, 9));
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 11, 9, 11, 15));
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 14, 12, 14, 9));
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 16, 7, 16, 5));
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 8, 1, 17, 1));
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 15, 15, 20, 15));
+	 		
 			for (Enemy enemy : enemies) {
 				enemyRectangles.add(enemy.getRectangle());
 			}	 			 		
 	 	}
 	 	break;
+	 	
+	 	case 4:{// not sure why (1,2) puts hero on gameboard, but works
+			player = new Player(thisLevel, new Texture("SpriteSheets/viola.png"), 1, 2);
+	 		
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 1, 2, 1, 9));
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 4, 1, 4, 11));
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 7, 12, 7, 6));
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 12, 10, 15, 10));
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 9, 2, 9, 7));
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 1, 2, 1, 9));
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 13, 1, 20, 1));
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 14, 6, 20, 6));
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 20, 4, 20, 13));
+	 		
+			for (Enemy enemy : enemies) {
+				enemyRectangles.add(enemy.getRectangle());
+			}
+	 	} 
+	 	break;
+	 	case 5:{// not sure why (1,3) puts hero on gameboard, but works
+			player = new Player(thisLevel, new Texture("SpriteSheets/viola.png"), 1, 3);
+	 	
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 2, 1, 8, 1));
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 10, 1, 10, 7));
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 12, 5, 7, 5));
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 10, 1, 10, 7));
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 3, 6, 3, 13));
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 3, 5, 3, 12));
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 5, 12, 12, 12));
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 5, 6, 5, 10));
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 17, 13, 13, 13));
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 8, 9, 12, 9));	//maybe too hard
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 20, 1, 12, 1));
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 20, 7, 16, 7));
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 14, 3, 14, 7));//maybe too hard
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 17, 15, 20, 15));
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 14, 9, 20, 9));
+	 		
+	 		
+			for (Enemy enemy : enemies) {
+				enemyRectangles.add(enemy.getRectangle());
+			}
+	 		
+	 	}
+	 	break;
+	 	
 	 	
 	 }
 	}

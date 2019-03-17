@@ -38,7 +38,7 @@ public class TextureLoader {
 		
 		buttonLock = new Texture(Gdx.files.internal("UIelements/lock.png"));
 		pixelHeart = new Texture(Gdx.files.internal("UIelements/pixelHeart3.png"));
-		darkLayer = new Texture(Gdx.files.internal("UIelements/darklayer.png"));
+		darkLayer = new Texture(Gdx.files.internal("UIelements/darkLayer.png"));
 	}
 
 	public static void disposeAllTextures() {
