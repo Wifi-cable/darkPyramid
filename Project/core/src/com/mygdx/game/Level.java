@@ -50,11 +50,11 @@ public class Level {
 		}
 			break;
 		case 2: {
-			//tiledMap = new TmxMapLoader().load("Maps/finalLevel2.tmx");	not level 2
-			
-			//tiledMap = new TmxMapLoader().load("Maps/final-Level3.tmx");	also not the mummies of level2
-			tiledMap = new TmxMapLoader().load("Maps/final-Level4.tmx");
+
+			tiledMap = new TmxMapLoader().load("Maps/final-Level3.tmx");
 		}
+		
+		break;
 		case 3:{
 			tiledMap = new TmxMapLoader().load("Maps/final-Level2.tmx");
 			
@@ -116,7 +116,8 @@ public class Level {
 	 	
 	 	case 3:{	// is same as level 2 this should not be. also there are two levels named level2 but spelled differenty
 	 		
-	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 11, 15, 19, 15));
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 1, 12, 1, 2));
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 1, 15, 1, 5));
 			for (Enemy enemy : enemies) {
 				enemyRectangles.add(enemy.getRectangle());
 			}	 			 		
