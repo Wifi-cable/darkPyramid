@@ -111,13 +111,12 @@ public class MyGdxGame extends ApplicationAdapter {
 	
 	private void initializeNextGameState() {
 		switch (nextGameState) {
-		case LevelSelection: {
-			levelSelection.initialize();
-		} break;
 		case Level: {
 			if (currentGameState == GameState.LevelSelection) {
 				int selectedLevel = levelSelection.getSelectedLevel();
 				level.initialize(selectedLevel);
+				boolean darkmode = levelSelection.getDarkmode();
+				level.setDarkMode(darkmode);
 			} else if (currentGameState == GameState.LevelOver) {
 				int selectedLevel = levelOver.getNextLevel();
 				level.initialize(selectedLevel);

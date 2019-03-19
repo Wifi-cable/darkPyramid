@@ -76,7 +76,7 @@ public class LevelUI implements UIinterface {
 		int minutes = ((int) timeLimit) / 60;
 		int seconds = ((int) timeLimit) % 60;
 		pauseButton.render(batch);
-		com.mygdx.game.MyGdxGame.font.draw(batch, "Level "+ currentLevel+ "   " + minutes + ":" + seconds, 10, 640);
+		com.mygdx.game.MyGdxGame.font.draw(batch, "Level "+ currentLevel+ "   " + minutes + ":" + seconds, 10, 680);
 		healthbar.render(batch);
 	}
 
@@ -85,7 +85,10 @@ public class LevelUI implements UIinterface {
 		completed = false;
 		level = new Level(selectedLevel);
 		timeLimit = level.getTimeLimit();
-		darkMode = true;
+	}
+	
+	public void setDarkMode(boolean darkmode) {
+		this.darkMode = darkmode;
 	}
 
 	public int getCurrentLevel() {
@@ -99,7 +102,7 @@ public class LevelUI implements UIinterface {
 	private class Healthbar {
 		int count;
 		float x = 200;
-		float y = 610;
+		float y = 650;
 		Texture heart = new Texture(Gdx.files.internal("UIelements/pixelHeart.png"));
 		Sprite heartSprite;
 
