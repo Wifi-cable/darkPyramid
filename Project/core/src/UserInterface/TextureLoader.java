@@ -9,7 +9,7 @@ public class TextureLoader {
 	static Texture background, startscreen, menu, selectLevel, levelFailed, levelCompleted, gameOver;
 	// all buttons
 	static Texture menuButton, backButton, continueButton, controlsButton, creditsButton, level1Button, level2Button,
-			level3Button, level4Button, level5Button, levelsButton, pauseButton, buttonLock;
+			level3Button, level4Button, level5Button, levelsButton, pauseButton, buttonLock, darkmodeOnButton, darkmodeOffButton;
 	// levelUI
 	static Texture pixelHeart, darkLayer;
 	// items
@@ -35,6 +35,8 @@ public class TextureLoader {
 		level5Button = new Texture(Gdx.files.internal("UIelements/level5Button.png"));
 		levelsButton = new Texture(Gdx.files.internal("UIelements/levelsButton.png"));
 		pauseButton = new Texture(Gdx.files.internal("UIelements/pauseButton.png"));
+		darkmodeOffButton =new Texture(Gdx.files.internal("UIelements/darkmodeOff.png"));
+		darkmodeOnButton =new Texture(Gdx.files.internal("UIelements/darkmodeOn.png"));
 		
 		buttonLock = new Texture(Gdx.files.internal("UIelements/lock.png"));
 		pixelHeart = new Texture(Gdx.files.internal("UIelements/pixelHeart3.png"));
@@ -63,6 +65,8 @@ public class TextureLoader {
 		level5Button.dispose();
 		levelsButton.dispose();
 		pauseButton.dispose();
+		darkmodeOffButton.dispose();
+		darkmodeOnButton.dispose();
 		buttonLock.dispose();
 		pixelHeart.dispose();
 		darkLayer.dispose();
