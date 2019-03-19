@@ -28,6 +28,7 @@ public class Level {
 	private ArrayList<Rectangle> walls;
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	private ArrayList<Rectangle> enemyRectangles = new ArrayList<Rectangle>();
+	
 
 	private Player player;
 	private float timeLimit;
@@ -37,10 +38,13 @@ public class Level {
 //	private float firstTileX;
 //	private float firstTileY;
 	private TiledMapTile firstTile;
-
+	
 	private boolean won = false;
 	private boolean lost = false;
+	private Rectangle exitRectangle;
+	private Sprite exitSprite;
 
+	
 	public Level(int levelNumber) {
 		switch (levelNumber) {
 		case 1: {
@@ -79,19 +83,26 @@ public class Level {
 		timeLimit = 180;
 
 		setWalls();
-
+	
 		thisLevel = this;
 		thisLevel.setHealthOfPlayer(3);
 		setEntities(levelNumber);
 	}
 
 	public void setEntities(int levelNumber) {
-		player = new Player(thisLevel, new Texture("SpriteSheets/viola.png"), 1, 1);	
-		
+		float tileSize = thisLevel.getTileSize();
+
+		float startX = thisLevel.getFirstTile().getOffsetX();
+		float startY = thisLevel.getFirstTile().getOffsetY() + (thisLevel.getTileAmountY() -1f) * tileSize;
+		exitRectangle = new Rectangle(startX+20*tileSize, startY-15*tileSize, tileSize, tileSize);
+ 		exitSprite = new Sprite(new Texture("Tilesets/ColorTiles/trapdoor2.png"));
+ 		exitSprite.setPosition(exitRectangle.getX(), exitRectangle.getY());
 	 switch (levelNumber) { 
 	 	case 1:{
-			player = new Player(thisLevel, new Texture("SpriteSheets/viola.png"), 1, 1);
 	 		
+	 	//	exitItem = new Item(new Texture("trapdoor.png"), 20, 15 );
+			player = new Player(thisLevel, new Texture("SpriteSheets/viola.png"), 1, 1);
+	  		
 			enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 11, 1, 11, 6));
 			enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 5, 7, 12, 7));
 			enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 11, 10, 6, 10));
@@ -209,6 +220,7 @@ public class Level {
 		// because TiledMapRenderer does not use Spritebatch
 		tiledmaprenderer.render();
 		batch.begin();
+		exitSprite.draw(batch);
 		player.draw(batch);
 //		if (enemies.size() != 0) {
 		for (Enemy enemy : enemies) {
@@ -224,6 +236,11 @@ public class Level {
 
 	public List<Rectangle> getEnemyRectangles() {
 		return this.enemyRectangles;
+	}
+	
+	
+	public void setGameWon() {
+		this.won = true;
 	}
 
 	public boolean playerHasWon() {
@@ -270,6 +287,9 @@ public class Level {
 
 	public Rectangle getPlayerRectangle() {
 		return player.getRectangle();
+	}
+	public Rectangle getExitRectangle() {
+		return this.exitRectangle;
 	}
 
 	public TiledMapTile getFirstTile() {

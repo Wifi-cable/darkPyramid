@@ -71,8 +71,8 @@ public class LevelUI implements UIinterface {
 	@Override
 	public void render(SpriteBatch batch) {
 		level.render(batch);
-		if (darkMode)
-			darkLayer.draw(batch);
+		//if (darkMode)
+			//darkLayer.draw(batch);
 		int minutes = ((int) timeLimit) / 60;
 		int seconds = ((int) timeLimit) % 60;
 		pauseButton.render(batch);
