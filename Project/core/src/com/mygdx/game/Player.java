@@ -102,6 +102,15 @@ public class Player {
 		return false;
 	}
 
+	public boolean foundExit() {
+		playerRectangle.setPosition(sprite.getX(), sprite.getY());
+		if (playerRectangle.overlaps(currentLevel.getExitRectangle())) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	// @Asel
 	// Delta time helps with a constant game speed on different frame rates
 	// if we didnt handle it in any way, the game speed would be
@@ -152,6 +161,9 @@ public class Player {
 		float oldX = playerRectangle.getX();
 		float oldY = playerRectangle.getY();
 
+		if (foundExit()) {
+			currentLevel.setGameWon();
+		}
 		// maybe setting X and Y at the same time? then we only have to check 2 times
 		// not 4
 

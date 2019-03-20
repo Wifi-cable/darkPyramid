@@ -12,11 +12,17 @@ public class LevelSelectionUI implements UIinterface {
 	private SimpleButton backButton;
 	private SimpleButton[] levelButtons;
 	private Sprite locks[];
+	private SimpleButton darkModeOnButton;
+	private SimpleButton darkModeOffButton;
+	private boolean darkMode;
 
 	public LevelSelectionUI() {
+		darkMode = true;
+		darkModeOnButton = new SimpleButton(0.70f, 0.05f, 0.25f, 0.1f, TextureLoader.darkmodeOnButton);
+		darkModeOffButton = new SimpleButton(0.70f, 0.05f, 0.25f, 0.1f, TextureLoader.darkmodeOffButton);
 		bgSprite = new Sprite(TextureLoader.selectLevel);
 		bgSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		
+
 		backButton = new SimpleButton(0.05f, 0.05f, 0.2f, 0.1f, TextureLoader.backButton);
 		levelButtons = new SimpleButton[com.mygdx.game.MyGdxGame.numberofLevels];
 		for (int i = 0; i < levelButtons.length; i++) {
@@ -46,6 +52,10 @@ public class LevelSelectionUI implements UIinterface {
 					System.out.println("level is still locked!");
 			}
 		}
+		// we only need one button too detect input and toggle, second button is just for display
+		if(darkModeOnButton.isJustPressed()) {
+			darkMode = !darkMode;
+		}
 		return GameState.LevelSelection;
 	}
 
@@ -61,13 +71,17 @@ public class LevelSelectionUI implements UIinterface {
 			locks[i].draw(batch);
 		}
 		backButton.render(batch);
-	}
-
-	public void initialize() {
+		if(darkMode)
+			darkModeOnButton.render(batch);
+		else
+			darkModeOffButton.render(batch);
 	}
 
 	public int getSelectedLevel() {
 		return selectedLevel;
+	}
+	public boolean getDarkmode() {
+		return darkMode;
 	}
 
 }
