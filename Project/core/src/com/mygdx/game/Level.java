@@ -145,7 +145,7 @@ public class Level {
 	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 14, 12, 14, 9));
 	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 16, 7, 16, 5));
 	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 8, 1, 17, 1));
-	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 15, 15, 20, 15));
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 15, 15, 19, 15));
 	 		
 			for (Enemy enemy : enemies) {
 				enemyRectangles.add(enemy.getRectangle());
@@ -187,7 +187,7 @@ public class Level {
 	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 20, 1, 12, 1));
 	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 20, 7, 16, 7));
 	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 14, 3, 14, 7));//maybe too hard
-	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 17, 15, 20, 15));
+	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 17, 15, 19, 15));
 	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 14, 9, 20, 9));
 	 		
 	 		
