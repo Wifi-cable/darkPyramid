@@ -2,14 +2,25 @@ package UserInterface;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.GameState;
 
 public class LevelOverUI implements UIinterface {
-	private int playedLevel;
-	private boolean hasWon;
+	private Sprite levelCompletedSprite;
+	private Sprite levelFailedSprite;
+	private Sprite gameOverSprite;
+	private Sprite background;
 	private boolean lastLevelWon;
 	private int nextLevel;
+	public LevelOverUI() {
+		levelCompletedSprite = new Sprite(TextureLoader.levelCompleted);
+		levelCompletedSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		levelFailedSprite = new Sprite(TextureLoader.levelFailed);
+		levelFailedSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		gameOverSprite = new Sprite(TextureLoader.gameOver);
+		gameOverSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+	}
 
 	@Override
 	public GameState handleInput() {
@@ -25,7 +36,8 @@ public class LevelOverUI implements UIinterface {
 
 	@Override
 	public void render(SpriteBatch batch) {
-		com.mygdx.game.MyGdxGame.font.draw(batch, "level over, space to continue", 100, 300);
+		background.draw(batch);
+		//com.mygdx.game.MyGdxGame.font.draw(batch, "level over, space to continue", 100, 300);
 	}
 
 	public int getNextLevel() {
@@ -33,8 +45,6 @@ public class LevelOverUI implements UIinterface {
 	}
 
 	public void initialize(int playedLevel, boolean won) {
-		this.playedLevel = playedLevel;
-		this.hasWon = won;
 		this.lastLevelWon = false;
 		this.nextLevel = playedLevel;
 
@@ -43,6 +53,7 @@ public class LevelOverUI implements UIinterface {
 			if (playedLevel == com.mygdx.game.MyGdxGame.numberofLevels) {
 				this.lastLevelWon = true;
 				System.out.println("won last level, continue to menu");
+				background = gameOverSprite;
 			} else {
 				if (playedLevel == com.mygdx.game.MyGdxGame.unlockedLevels) {
 					System.out.println("level unlocked");
@@ -50,9 +61,11 @@ public class LevelOverUI implements UIinterface {
 				}
 				this.nextLevel = playedLevel + 1;
 				System.out.println("continue with nextlevel");
+				background = levelCompletedSprite;
 			}
 		} else {
 			System.out.println("level failed, retry level");
+			background = levelFailedSprite;
 		}
 	}
 
