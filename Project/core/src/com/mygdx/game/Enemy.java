@@ -33,15 +33,16 @@ public class Enemy extends Sprite {
 	private Animation<Sprite> animation, aniWalkUp, aniWalkDown, aniWalkRight, aniWalkLeft;
 	private float elapsedTime = 0;
 
-
 	private float startX;
 	private float startY;
 	private float endX;
 	private float endY;
-
+	private float xDifference;
+//	private float yDifference;
 
 	public Enemy(Level level, Texture spriteSheet, int startTileX, int startTileY, int endTileX, int endTileY) {
-		TextureRegion[][] tmpFrames = TextureRegion.split(spriteSheet, spriteSheet.getWidth()/3, spriteSheet.getHeight()/4);
+		TextureRegion[][] tmpFrames = TextureRegion.split(spriteSheet, spriteSheet.getWidth() / 3,
+				spriteSheet.getHeight() / 4);
 		texturRegWalkDown = new TextureRegion[4];
 		texturRegWalkLeft = new TextureRegion[4];
 		texturRegWalkRight = new TextureRegion[4];
@@ -60,7 +61,6 @@ public class Enemy extends Sprite {
 		texturRegWalkRight[index] = tmpFrames[2][1];
 		texturRegWalkUp[index] = tmpFrames[3][1];
 
-		
 		int spriteWidth = spriteSheet.getWidth() / 3;
 		int spriteHeight = spriteSheet.getHeight() / 4;
 
@@ -74,20 +74,23 @@ public class Enemy extends Sprite {
 		float firstX = level.getFirstTile().getOffsetX();
 		float firstY = level.getFirstTile().getOffsetY() + (level.getTileAmountY() - 1f) * tileSize;
 
-		//positioning and centering the sprite/ rectangle
-		this.startX = firstX + startTileX * tileSize + (tileSize - spriteWidth) / 2;
-		this.startY = firstY - startTileY * tileSize - (tileSize - spriteHeight) / 2;
-		this.endX = firstX + endTileX * tileSize + (tileSize - spriteWidth) / 2;
-		this.endY = firstY - endTileY * tileSize - (tileSize - spriteHeight) / 2;
+		// "/2" because it's only the difference on 1 side (left or right )
+		this.xDifference = (tileSize -10 - spriteWidth) / 2;
+//		this.yDifference = (tileSize -10 - spriteHeight) /2;
+		// positioning and centering the sprite/ rectangle
+		this.startX = firstX + startTileX * tileSize + 5;
+		this.startY = firstY - startTileY * tileSize + 5;
+		this.endX = firstX + endTileX * tileSize + 5;
+		this.endY = firstY - endTileY * tileSize + 5;
 
-		this.enemy = new Rectangle(startX, startY, tileSize, tileSize);
+		this.enemy = new Rectangle(startX, startY, tileSize - 10, tileSize - 10);
 	}
 
 	@Override
 	public void draw(Batch spritebatch) {
 		elapsedTime += Gdx.graphics.getDeltaTime();
 
-		spritebatch.draw(animation.getKeyFrame(elapsedTime, true), enemy.getX(), enemy.getY());
+		spritebatch.draw(animation.getKeyFrame(elapsedTime, true), enemy.getX()+ xDifference, enemy.getY());
 	}
 
 	public void update() {

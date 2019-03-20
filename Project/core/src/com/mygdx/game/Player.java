@@ -16,7 +16,6 @@ import static com.mygdx.game.Player.Directions.*;
 
 public class Player {
 
-
 	private Texture spritessheet;
 	private TextureRegion textureRegion;
 	private TextureRegion[] texturRegWalkUp, texturRegWalkLeft, texturRegWalkRight, texturRegWalkDown;
@@ -32,11 +31,14 @@ public class Player {
 	private long invincibleTime = 0;
 	Rectangle playerRectangle;
 
+	private float xDifference;
+//	private float yDifference;
 
 	public Player(Level level, Texture spriteSheet, int startTileX, int startTileY) {
 		currentLevel = level;
 		spritessheet = spriteSheet;
-		TextureRegion[][] tmpFrames = TextureRegion.split(spriteSheet, spriteSheet.getWidth()/3, spriteSheet.getHeight()/4);
+		TextureRegion[][] tmpFrames = TextureRegion.split(spriteSheet, spriteSheet.getWidth() / 3,
+				spriteSheet.getHeight() / 4);
 		texturRegWalkDown = new TextureRegion[4];
 		texturRegWalkLeft = new TextureRegion[4];
 		texturRegWalkRight = new TextureRegion[4];
@@ -58,22 +60,24 @@ public class Player {
 		int spriteWidth = spriteSheet.getWidth() / 3;
 		int spriteHeight = spriteSheet.getHeight() / 4;
 
-		float tileSize = level.getTileSize();
-		float firstX = level.getFirstTile().getOffsetX();
-		float firstY = level.getFirstTile().getOffsetY() + (level.getTileAmountY() - 1f) * tileSize;
-
-		//positioning and centering the sprite/ rectangle
-		float startX = firstX + startTileX * tileSize + (tileSize - spriteWidth) / 2;
-		float startY = firstY - startTileY * tileSize - (tileSize - spriteHeight) / 2;
-
-		playerRectangle = new Rectangle(startX, startY, currentLevel.getTileSize() - 10,
-				currentLevel.getTileSize() - 10);
-
 		aniWalkDown = new Animation(0.3f, texturRegWalkDown);
 		aniWalkUp = new Animation(0.3f, texturRegWalkUp);
 		aniWalkLeft = new Animation(0.3f, texturRegWalkLeft);
 		aniWalkRight = new Animation(0.3f, texturRegWalkRight);
 		animation = new Animation(0.3f, texturRegWalkRight);
+
+		float tileSize = level.getTileSize();
+		float firstX = level.getFirstTile().getOffsetX();
+		float firstY = level.getFirstTile().getOffsetY() + (level.getTileAmountY() - 1f) * tileSize;
+
+		// "/2" because it's only the difference on 1 side (left or right)
+		this.xDifference = (tileSize - 10 - spriteWidth) / 2;
+//		this.yDifference = (tileSize -10 - spriteHeight) / 2;
+		// positioning and centering the sprite/ rectangle
+		float startX = firstX + startTileX * tileSize + 5;
+		float startY = firstY - startTileY * tileSize + 5;
+
+		playerRectangle = new Rectangle(startX, startY, tileSize - 10, tileSize - 10);
 
 		currentHealth = currentLevel.getHealthOfPlayer();
 	}
@@ -85,7 +89,8 @@ public class Player {
 	public void draw(Batch spritebatch) {
 		elapsedTime += Gdx.graphics.getDeltaTime();
 
-		spritebatch.draw(animation.getKeyFrame(elapsedTime, true), playerRectangle.getX(), playerRectangle.getY());
+		spritebatch.draw(animation.getKeyFrame(elapsedTime, true), playerRectangle.getX() + xDifference,
+				playerRectangle.getY());
 
 	}
 
@@ -164,13 +169,12 @@ public class Player {
 			playerRectangle.setY(oldY);
 		}
 
-		
 		// still invincible
 		if ((System.currentTimeMillis() - invincibleTime) / 1000 > 3 || invincibleTime == 0) {
 			// not invincible
 			if (hasCollidedWith(currentLevel.getEnemyRectangles())) {
 				playerRectangle.setX(oldX);
-				playerRectangle.setX(oldY);
+				playerRectangle.setY(oldY);
 				currentLevel.setHealthOfPlayer(--currentHealth);
 				invincibleTime = System.currentTimeMillis();
 			}
