@@ -1,7 +1,15 @@
 package com.mygdx.game;
 
+import static com.mygdx.game.Player.Directions.EAST;
+import static com.mygdx.game.Player.Directions.NORTH;
+import static com.mygdx.game.Player.Directions.SOUTH;
+import static com.mygdx.game.Player.Directions.WEST;
+
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -9,10 +17,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-
-import java.util.List;
-
-import static com.mygdx.game.Player.Directions.*;
 
 public class Player {
 
@@ -30,11 +34,13 @@ public class Player {
 	private int currentHealth;
 	private long invincibleTime = 0;
 	Rectangle playerRectangle;
+	private Sound mp3SoundHitByMonsterHit;
 
 	private float xDifference;
-//	private float yDifference;
+	// private float yDifference;
 
 	public Player(Level level, Texture spriteSheet, int startTileX, int startTileY) {
+		mp3SoundHitByMonsterHit = Gdx.audio.newSound(Gdx.files.internal("Soundeffects/zombie-12.mp3"));
 		currentLevel = level;
 		spritessheet = spriteSheet;
 		TextureRegion[][] tmpFrames = TextureRegion.split(spriteSheet, spriteSheet.getWidth() / 3,
@@ -70,14 +76,14 @@ public class Player {
 		float firstX = level.getFirstTile().getOffsetX();
 		float firstY = level.getFirstTile().getOffsetY() + (level.getTileAmountY() - 1f) * tileSize;
 
-		// "/2" because it's only the difference on 1 side (left or right)
-		this.xDifference = (tileSize - 10 - spriteWidth) / 2;
-//		this.yDifference = (tileSize -10 - spriteHeight) / 2;
-		// positioning and centering the sprite/ rectangle
-		float startX = firstX + startTileX * tileSize + 5;
-		float startY = firstY - startTileY * tileSize + 5;
+		float playerTileDifference = 20;
 
-		playerRectangle = new Rectangle(startX, startY, tileSize - 10, tileSize - 10);
+		// "/2" because it's only the difference on 1 side (left or right)
+		this.xDifference = (tileSize - playerTileDifference - spriteWidth) / 2;
+		float startX = firstX + startTileX * tileSize + playerTileDifference / 2;
+		float startY = firstY - startTileY * tileSize + playerTileDifference / 2;
+
+		playerRectangle = new Rectangle(startX, startY, tileSize - playerTileDifference, tileSize - playerTileDifference);
 
 		currentHealth = currentLevel.getHealthOfPlayer();
 	}
@@ -100,6 +106,10 @@ public class Player {
 				return true;
 		}
 		return false;
+	}
+
+	public boolean foundExit() {
+		return playerRectangle.overlaps(currentLevel.getExitRectangle());
 	}
 
 	// @Asel
@@ -152,6 +162,9 @@ public class Player {
 		float oldX = playerRectangle.getX();
 		float oldY = playerRectangle.getY();
 
+		if (foundExit()) {
+			currentLevel.setGameWon();
+		}
 		// maybe setting X and Y at the same time? then we only have to check 2 times
 		// not 4
 
@@ -175,6 +188,7 @@ public class Player {
 			if (hasCollidedWith(currentLevel.getEnemyRectangles())) {
 				playerRectangle.setX(oldX);
 				playerRectangle.setY(oldY);
+				mp3SoundHitByMonsterHit.play();
 				currentLevel.setHealthOfPlayer(--currentHealth);
 				invincibleTime = System.currentTimeMillis();
 			}
