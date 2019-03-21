@@ -180,7 +180,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	private int readFromUnlockedLevelsFile() {
 
 		String userDirectory = System.getProperty("user.home");
-		Path pathToSaveGameFile = Paths.get(userDirectory, "documents", "DarkPyramid");
+		Path pathToSaveGameFile = Paths.get(userDirectory, "Documents", "DarkPyramid");
 
 		if (Files.notExists(pathToSaveGameFile)) {
 			try {
@@ -192,7 +192,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			}
 		}
 
-		Path pathToSaveGameFile2 = Paths.get(userDirectory, "documents", "DarkPyramid", "SaveState",
+		Path pathToSaveGameFile2 = Paths.get(userDirectory, "Documents", "DarkPyramid", "SaveState",
 				"DarkPyramidSaveGameFile.txt");
 
 		try {
