@@ -1,6 +1,16 @@
 package com.mygdx.game;
 
-import UserInterface.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.prefs.Preferences;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
@@ -10,7 +20,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import UserInterface.*;
+import UserInterface.ControlsUI;
+import UserInterface.CreditsUI;
+import UserInterface.LevelOverUI;
+import UserInterface.LevelSelectionUI;
+import UserInterface.LevelUI;
+import UserInterface.MenuUI;
+import UserInterface.PauseMenuUI;
+import UserInterface.StartScreenUI;
+import UserInterface.TextureLoader;
 
 public class MyGdxGame extends ApplicationAdapter {
 	
@@ -32,9 +50,11 @@ public class MyGdxGame extends ApplicationAdapter {
 	LevelUI level;
 	PauseMenuUI pauseMenu;
 	LevelOverUI levelOver;
+	Preferences savegameFile;
 
 	@Override
 	public void create() {
+		unlockedLevels = readFromUnlockedLevelsFile();
 		TextureLoader.loadAllTextures();
 		font = new BitmapFont();
 		font.setColor(Color.WHITE);
@@ -133,4 +153,62 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 
 	}
+	private int readFromUnlockedLevelsFile() {
+		
+		
+		
+		String userDirectory = System.getProperty("user.home");
+		Path pathToSaveGameFile = Paths.get(userDirectory, "DarkPyramidSaveGameFile.txt");
+		try {
+			if(!Files.deleteIfExists(pathToSaveGameFile)) {
+				System.out.println("Does not exist");
+				BufferedWriter writer = null;
+				try{
+					writer = new BufferedWriter(new FileWriter(pathToSaveGameFile.toString()));
+					writer.write("1");
+					writer.flush();
+					writer.close();
+				} catch(Exception e) {
+					e.printStackTrace();
+					writer.close();
+				}//finally {
+//					if(writer != null) {
+//						try {
+//							writer.close();
+//						} catch (IOException e) {
+//							e.printStackTrace();
+//						}
+//					}
+//				}
+			}
+		
+//		System.out.println(userDirectory);
+		
+		File file = pathToSaveGameFile.toFile();
+		BufferedReader bufferedReader = null;
+		try {
+			bufferedReader = new BufferedReader(new FileReader(file));
+			String readLine; 
+		readLine = bufferedReader.readLine();
+		int numberOfunlockedLevels = Integer.parseInt(readLine);	
+			return numberOfunlockedLevels;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 1; // As backup, in case of exception the game can be played from Level 1 on.
+		} finally {
+			try {
+				bufferedReader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} 
+		} catch (IOException e1) {
+			e1.printStackTrace();
+			return 1;
+		}
+		
+		
+	}
+
+	
 }
