@@ -1,5 +1,11 @@
 package UserInterface;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -58,6 +64,7 @@ public class LevelOverUI implements UIinterface {
 				if (playedLevel == com.mygdx.game.MyGdxGame.unlockedLevels) {
 					System.out.println("level unlocked");
 					com.mygdx.game.MyGdxGame.unlockedLevels ++;
+					writeUnlockedLevelToFile(com.mygdx.game.MyGdxGame.unlockedLevels);
 				}
 				this.nextLevel = playedLevel + 1;
 				System.out.println("continue with nextlevel");
@@ -66,6 +73,27 @@ public class LevelOverUI implements UIinterface {
 		} else {
 			System.out.println("level failed, retry level");
 			background = levelFailedSprite;
+		}
+	}
+	public static void writeUnlockedLevelToFile(int unlockedLevel){	
+		String userDirectory = System.getProperty("user.home");
+		Path pathToSaveGameFile = Paths.get(userDirectory, "DarkPyramidSaveGameFile.txt");
+		String outputToFile = "" + unlockedLevel;
+		BufferedWriter writer = null;
+		try{
+			writer = new BufferedWriter(new FileWriter(pathToSaveGameFile.toString()));
+			writer.write(outputToFile);
+			writer.close();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(writer != null) {
+				try {
+					writer.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 
