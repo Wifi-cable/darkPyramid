@@ -11,19 +11,22 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.io.*;
+//import java.nio.file.Files;
+//import java.nio.file.Path;
+//import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.prefs.Preferences;
 
 public class MyGdxGame extends ApplicationAdapter {
-	
-	// for testing purpose	
+
+	// for testing purpose
 	public static BitmapFont font;
 	public static Texture txt;
 	public static final int numberofLevels = 5;
 	public static int unlockedLevels = 1;
-	
+
 	SpriteBatch batch;
 	GameState currentGameState = GameState.StartScreen;
 	GameState nextGameState = GameState.StartScreen;
@@ -47,21 +50,21 @@ public class MyGdxGame extends ApplicationAdapter {
 		font.getData().setScale(2);
 		txt = new Texture(Gdx.files.internal("UIelements/logo.png"));
 		Music mp3Music = Gdx.audio.newMusic(Gdx.files.internal("Music/bgMusic.mp3"));
-//		mp3Music.play();
-		
+		mp3Music.play();
+
 		batch = new SpriteBatch();
-		
-		startScreen 	= new StartScreenUI();
-		menu 			= new MenuUI();
-		levelSelection 	= new LevelSelectionUI();
-		controls 		= new ControlsUI();
-		credits 		= new CreditsUI();
-		level 			= new LevelUI();
-		pauseMenu 		= new PauseMenuUI();
-		levelOver 		= new LevelOverUI();
+
+		startScreen = new StartScreenUI();
+		menu = new MenuUI();
+		levelSelection = new LevelSelectionUI();
+		controls = new ControlsUI();
+		credits = new CreditsUI();
+		level = new LevelUI();
+		pauseMenu = new PauseMenuUI();
+		levelOver = new LevelOverUI();
 
 	}
-	
+
 	@Override
 	public void render() {
 		currentGameState = nextGameState;
@@ -70,7 +73,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch.begin();
 		renderCurrentGameState();
 		batch.end();
-		if(nextGameState != currentGameState)
+		if (nextGameState != currentGameState)
 			initializeNextGameState();
 	}
 
@@ -81,40 +84,73 @@ public class MyGdxGame extends ApplicationAdapter {
 		font.dispose();
 		txt.dispose();
 	}
-	
+
 	private void clear() {
 		Gdx.gl.glClearColor(0f, 0f, 0f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	}
-	
+
 	private void updateNextGameState() {
 		switch (currentGameState) {
-		case StartScreen: 	 	nextGameState = startScreen.handleInput();break;
-		case Menu:			 	nextGameState = menu.handleInput();break;
-		case LevelSelection: 	nextGameState = levelSelection.handleInput();break;
-		case Controls:			nextGameState = controls.handleInput();break;
-		case Credits:			nextGameState = credits.handleInput();break;
-		case Level:				nextGameState = level.handleInput();break;
-		case PauseMenu:			nextGameState = pauseMenu.handleInput();break;
-		case LevelOver:			nextGameState = levelOver.handleInput();break;
-			default:
-		}	
-	}
-	
-	private void renderCurrentGameState() {
-		switch (currentGameState) {
-		case StartScreen:		startScreen.render(batch);break;
-		case Menu:				menu.render(batch);break;
-		case LevelSelection:	levelSelection.render(batch);break;
-		case Controls:			controls.render(batch);break;
-		case Credits:			credits.render(batch);break;
-		case Level:				level.render(batch);break;
-		case PauseMenu:			pauseMenu.render(batch);break;
-		case LevelOver:			levelOver.render(batch);break;
-		default: font.draw(batch, "Error", 100, 300);
+		case StartScreen:
+			nextGameState = startScreen.handleInput();
+			break;
+		case Menu:
+			nextGameState = menu.handleInput();
+			break;
+		case LevelSelection:
+			nextGameState = levelSelection.handleInput();
+			break;
+		case Controls:
+			nextGameState = controls.handleInput();
+			break;
+		case Credits:
+			nextGameState = credits.handleInput();
+			break;
+		case Level:
+			nextGameState = level.handleInput();
+			break;
+		case PauseMenu:
+			nextGameState = pauseMenu.handleInput();
+			break;
+		case LevelOver:
+			nextGameState = levelOver.handleInput();
+			break;
+		default:
 		}
 	}
-	
+
+	private void renderCurrentGameState() {
+		switch (currentGameState) {
+		case StartScreen:
+			startScreen.render(batch);
+			break;
+		case Menu:
+			menu.render(batch);
+			break;
+		case LevelSelection:
+			levelSelection.render(batch);
+			break;
+		case Controls:
+			controls.render(batch);
+			break;
+		case Credits:
+			credits.render(batch);
+			break;
+		case Level:
+			level.render(batch);
+			break;
+		case PauseMenu:
+			pauseMenu.render(batch);
+			break;
+		case LevelOver:
+			levelOver.render(batch);
+			break;
+		default:
+			font.draw(batch, "Error", 100, 300);
+		}
+	}
+
 	private void initializeNextGameState() {
 		switch (nextGameState) {
 		case Level: {
@@ -128,70 +164,76 @@ public class MyGdxGame extends ApplicationAdapter {
 				level.initialize(selectedLevel);
 			}
 			// if current == pause ?
-		} break;
+		}
+			break;
 		case LevelOver: {
 			int playedLevel = level.getCurrentLevel();
 			boolean won = level.hasWon();
 			levelOver.initialize(playedLevel, won);
-		} break;
+		}
+			break;
 		default:
-        }
+		}
 
 	}
+
 	private int readFromUnlockedLevelsFile() {
 
 		String userDirectory = System.getProperty("user.home");
-		Path pathToSaveGameFile = Paths.get(userDirectory, "DarkPyramidSaveGameFile.txt");
-		try {
-            if (!Files.exists(pathToSaveGameFile)) {
-				System.out.println("Does not exist");
-				BufferedWriter writer = null;
-				try{
-					writer = new BufferedWriter(new FileWriter(pathToSaveGameFile.toString()));
-					writer.write("1");
-					writer.flush();
-					writer.close();
-				} catch(Exception e) {
-					e.printStackTrace();
-					writer.close();
-				}//finally {
-//					if(writer != null) {
-//						try {
-//							writer.close();
-//						} catch (IOException e) {
-//							e.printStackTrace();
-//						}
-//					}
-//				}
-			}
-		
-//		System.out.println(userDirectory);
-		
-		File file = pathToSaveGameFile.toFile();
-		BufferedReader bufferedReader = null;
-		try {
-			bufferedReader = new BufferedReader(new FileReader(file));
-			String readLine; 
-		readLine = bufferedReader.readLine();
-		int numberOfunlockedLevels = Integer.parseInt(readLine);	
-			return numberOfunlockedLevels;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return 1; // As backup, in case of exception the game can be played from Level 1 on.
-		} finally {
+		Path pathToSaveGameFile = Paths.get(userDirectory, "documents", "DarkPyramid");
+
+		if (Files.notExists(pathToSaveGameFile)) {
 			try {
-				bufferedReader.close();
+				Files.createDirectory(pathToSaveGameFile);
+				pathToSaveGameFile = Paths.get(pathToSaveGameFile.toString(), "SaveState");
+				Files.createDirectory(pathToSaveGameFile);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} 
+		}
+
+		Path pathToSaveGameFile2 = Paths.get(userDirectory, "documents", "DarkPyramid", "SaveState",
+				"DarkPyramidSaveGameFile.txt");
+
+		try {
+			if (!Files.exists(pathToSaveGameFile2)) {
+				BufferedWriter writer = null;
+				try {
+					writer = new BufferedWriter(new FileWriter(pathToSaveGameFile2.toString()));
+					writer.write("1");
+					writer.flush();
+					writer.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+					writer.close();
+				} 
+			}
+
+			// System.out.println(userDirectory);
+
+			File file = pathToSaveGameFile2.toFile();
+			BufferedReader bufferedReader = null;
+			try {
+				bufferedReader = new BufferedReader(new FileReader(file));
+				String readLine;
+				readLine = bufferedReader.readLine();
+				int numberOfunlockedLevels = Integer.parseInt(readLine);
+				return numberOfunlockedLevels;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return 1; // As backup, in case of exception the game can be played from Level 1 on.
+			} finally {
+				try {
+					bufferedReader.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		} catch (IOException e1) {
 			e1.printStackTrace();
 			return 1;
 		}
-		
-		
+
 	}
 
-	
 }
