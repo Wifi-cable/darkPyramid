@@ -50,6 +50,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		font.getData().setScale(2);
 		txt = new Texture(Gdx.files.internal("UIelements/logo.png"));
 		Music mp3Music = Gdx.audio.newMusic(Gdx.files.internal("Music/bgMusic.mp3"));
+		mp3Music.setLooping(true);
 		mp3Music.play();
 
 		batch = new SpriteBatch();
