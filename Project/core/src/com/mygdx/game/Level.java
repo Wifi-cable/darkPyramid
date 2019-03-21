@@ -162,7 +162,7 @@ public class Level {
 	 	}
 	 	break;
 	 	case 5:{// not sure why (1,3) puts hero on gameboard, but works
-			player = new Player(thisLevel, new Texture("SpriteSheets/viola.png"), 1, 3);
+			player = new Player(thisLevel, new Texture("SpriteSheets/viola.png"), 1, 1);
 
 	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 2, 1, 8, 1));
 	 		enemies.add(new Enemy(thisLevel, new Texture("SpriteSheets/Mummy.png"), 10, 1, 10, 7));
