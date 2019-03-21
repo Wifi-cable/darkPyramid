@@ -74,14 +74,14 @@ public class Enemy extends Sprite {
 		float firstX = level.getFirstTile().getOffsetX();
 		float firstY = level.getFirstTile().getOffsetY() + (level.getTileAmountY() - 1f) * tileSize;
 
+		float enemyTileDifference = 10;
+		
 		// "/2" because it's only the difference on 1 side (left or right )
-		this.xDifference = (tileSize -10 - spriteWidth) / 2;
-//		this.yDifference = (tileSize -10 - spriteHeight) /2;
-		// positioning and centering the sprite/ rectangle
-		this.startX = firstX + startTileX * tileSize + 5;
-		this.startY = firstY - startTileY * tileSize + 5;
-		this.endX = firstX + endTileX * tileSize + 5;
-		this.endY = firstY - endTileY * tileSize + 5;
+		this.xDifference = (tileSize -enemyTileDifference - spriteWidth) / 2;
+		this.startX = firstX + startTileX * tileSize + enemyTileDifference /2;
+		this.startY = firstY - startTileY * tileSize + enemyTileDifference /2;
+		this.endX = firstX + endTileX * tileSize + enemyTileDifference /2;
+		this.endY = firstY - endTileY * tileSize + enemyTileDifference /2;
 
 		this.enemy = new Rectangle(startX, startY, tileSize - 10, tileSize - 10);
 	}

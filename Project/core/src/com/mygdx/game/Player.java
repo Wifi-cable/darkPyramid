@@ -26,7 +26,7 @@ public class Player {
 	private Directions walkDirection = SOUTH;
 	private Animation<Sprite> animation, aniWalkUp, aniWalkDown, aniWalkRight, aniWalkLeft;
 	private Vector2 velocity = new Vector2();
-	private float speed = 200;
+	private float speed = 150;
 	private Level currentLevel;
 	private boolean hasFailed;
 	private boolean hasWon;
@@ -37,7 +37,7 @@ public class Player {
 	private Sound mp3SoundHitByMonsterHit;
 
 	private float xDifference;
-//	private float yDifference;
+	// private float yDifference;
 
 	public Player(Level level, Texture spriteSheet, int startTileX, int startTileY) {
 		mp3SoundHitByMonsterHit = Gdx.audio.newSound(Gdx.files.internal("Soundeffects/zombie-12.mp3"));
@@ -76,14 +76,14 @@ public class Player {
 		float firstX = level.getFirstTile().getOffsetX();
 		float firstY = level.getFirstTile().getOffsetY() + (level.getTileAmountY() - 1f) * tileSize;
 
-		// "/2" because it's only the difference on 1 side (left or right)
-		this.xDifference = (tileSize - 10 - spriteWidth) / 2;
-//		this.yDifference = (tileSize -10 - spriteHeight) / 2;
-		// positioning and centering the sprite/ rectangle
-		float startX = firstX + startTileX * tileSize + 5;
-		float startY = firstY - startTileY * tileSize + 5;
+		float playerTileDifference = 20;
 
-		playerRectangle = new Rectangle(startX, startY, tileSize - 10, tileSize - 10);
+		// "/2" because it's only the difference on 1 side (left or right)
+		this.xDifference = (tileSize - playerTileDifference - spriteWidth) / 2;
+		float startX = firstX + startTileX * tileSize + playerTileDifference / 2;
+		float startY = firstY - startTileY * tileSize + playerTileDifference / 2;
+
+		playerRectangle = new Rectangle(startX, startY, tileSize - playerTileDifference, tileSize - playerTileDifference);
 
 		currentHealth = currentLevel.getHealthOfPlayer();
 	}
@@ -188,7 +188,7 @@ public class Player {
 			if (hasCollidedWith(currentLevel.getEnemyRectangles())) {
 				playerRectangle.setX(oldX);
 				playerRectangle.setY(oldY);
-                mp3SoundHitByMonsterHit.play();
+				mp3SoundHitByMonsterHit.play();
 				currentLevel.setHealthOfPlayer(--currentHealth);
 				invincibleTime = System.currentTimeMillis();
 			}
