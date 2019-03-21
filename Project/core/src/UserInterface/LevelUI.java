@@ -3,7 +3,6 @@ package UserInterface;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -24,8 +23,7 @@ public class LevelUI implements UIinterface {
 
 	public LevelUI() {
 		healthbar = new Healthbar();
-
-		pauseButton = new SimpleButton(0.83f, 0.94f, 0.15f, 0.05f, TextureLoader.pauseButton);
+        pauseButton = new SimpleButton(0.83f, 0.93f, 0.15f, 0.05f, TextureLoader.pauseButton);
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.update();
@@ -72,10 +70,16 @@ public class LevelUI implements UIinterface {
 	@Override
 	public void render(SpriteBatch batch) {
 		level.render(batch);
-		//if (darkMode)
-			//darkLayer.draw(batch);
+        if (darkMode)
+            darkLayer.draw(batch);
 		int minutes = ((int) timeLimit) / 60;
 		int seconds = ((int) timeLimit) % 60;
+        String min = "" + minutes;
+        String s = "" + seconds;
+        if (minutes < 10)
+            min = "0" + min;
+        if (seconds < 10)
+            s = "0" + s;
 		pauseButton.render(batch);
 		com.mygdx.game.MyGdxGame.font.draw(batch, "Level " + currentLevel + "   " + minutes + ":" + seconds, 10,
 				Gdx.graphics.getHeight() - 10);

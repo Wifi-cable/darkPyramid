@@ -12,7 +12,8 @@ public class TextureLoader {
 			level3Button, level4Button, level5Button, levelsButton, pauseButton, buttonLock, darkmodeOnButton, darkmodeOffButton;
 	// levelUI
 	static Texture pixelHeart, darkLayer;
-	// items
+    // other UI elements
+    static Texture credits, controls;
 
 	public static void loadAllTextures() {
 		background = new Texture(Gdx.files.internal("UIelements/background.png"));
@@ -41,6 +42,9 @@ public class TextureLoader {
 		buttonLock = new Texture(Gdx.files.internal("UIelements/lock.png"));
 		pixelHeart = new Texture(Gdx.files.internal("UIelements/pixelHeart3.png"));
 		darkLayer = new Texture(Gdx.files.internal("UIelements/darkLayer.png"));
+
+        credits = new Texture(Gdx.files.internal("UIelements/credits.png"));
+        controls = new Texture(Gdx.files.internal("UIelements/controls.png"));
 	}
 
 	public static void disposeAllTextures() {
@@ -70,6 +74,8 @@ public class TextureLoader {
 		buttonLock.dispose();
 		pixelHeart.dispose();
 		darkLayer.dispose();
+        credits.dispose();
+        controls.dispose();
 	}
 
 	public static Texture getButtonTexture(int number) {

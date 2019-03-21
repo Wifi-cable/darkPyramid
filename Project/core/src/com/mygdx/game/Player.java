@@ -103,12 +103,7 @@ public class Player {
 	}
 
 	public boolean foundExit() {
-		playerRectangle.setPosition(sprite.getX(), sprite.getY());
-		if (playerRectangle.overlaps(currentLevel.getExitRectangle())) {
-			return true;
-		} else {
-			return false;
-		}
+		return playerRectangle.overlaps(currentLevel.getExitRectangle());
 	}
 
 	// @Asel
