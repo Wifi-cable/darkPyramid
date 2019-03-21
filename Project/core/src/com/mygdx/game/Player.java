@@ -26,7 +26,7 @@ public class Player {
 	private Directions walkDirection = SOUTH;
 	private Animation<Sprite> animation, aniWalkUp, aniWalkDown, aniWalkRight, aniWalkLeft;
 	private Vector2 velocity = new Vector2();
-	private float speed = 200;
+	private float speed = 150;
 	private Level currentLevel;
 	private boolean hasFailed;
 	private boolean hasWon;
