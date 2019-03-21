@@ -1,7 +1,15 @@
 package com.mygdx.game;
 
+import static com.mygdx.game.Player.Directions.EAST;
+import static com.mygdx.game.Player.Directions.NORTH;
+import static com.mygdx.game.Player.Directions.SOUTH;
+import static com.mygdx.game.Player.Directions.WEST;
+
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -9,10 +17,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-
-import java.util.List;
-
-import static com.mygdx.game.Player.Directions.*;
 
 public class Player {
 
@@ -30,11 +34,13 @@ public class Player {
 	private int currentHealth;
 	private long invincibleTime = 0;
 	Rectangle playerRectangle;
+	private Sound mp3SoundHitByMonsterHit;
 
 	private float xDifference;
 //	private float yDifference;
 
 	public Player(Level level, Texture spriteSheet, int startTileX, int startTileY) {
+		mp3SoundHitByMonsterHit = Gdx.audio.newSound(Gdx.files.internal("Soundeffects/zombie-12.mp3"));
 		currentLevel = level;
 		spritessheet = spriteSheet;
 		TextureRegion[][] tmpFrames = TextureRegion.split(spriteSheet, spriteSheet.getWidth() / 3,
@@ -182,6 +188,7 @@ public class Player {
 			if (hasCollidedWith(currentLevel.getEnemyRectangles())) {
 				playerRectangle.setX(oldX);
 				playerRectangle.setY(oldY);
+                mp3SoundHitByMonsterHit.play();
 				currentLevel.setHealthOfPlayer(--currentHealth);
 				invincibleTime = System.currentTimeMillis();
 			}
