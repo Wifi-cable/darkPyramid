@@ -11,6 +11,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.io.*;
+//import java.nio.file.Files;
+//import java.nio.file.Path;
+//import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -47,7 +50,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		font.getData().setScale(2);
 		txt = new Texture(Gdx.files.internal("UIelements/logo.png"));
 		Music mp3Music = Gdx.audio.newMusic(Gdx.files.internal("Music/bgMusic.mp3"));
-//		mp3Music.play();
+		mp3Music.play();
 		
 		batch = new SpriteBatch();
 		
