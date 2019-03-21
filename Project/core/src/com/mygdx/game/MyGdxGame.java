@@ -1,16 +1,6 @@
 package com.mygdx.game;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.prefs.Preferences;
-
+import UserInterface.*;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
@@ -20,15 +10,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import UserInterface.ControlsUI;
-import UserInterface.CreditsUI;
-import UserInterface.LevelOverUI;
-import UserInterface.LevelSelectionUI;
-import UserInterface.LevelUI;
-import UserInterface.MenuUI;
-import UserInterface.PauseMenuUI;
-import UserInterface.StartScreenUI;
-import UserInterface.TextureLoader;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.prefs.Preferences;
 
 public class MyGdxGame extends ApplicationAdapter {
 	
@@ -149,18 +135,15 @@ public class MyGdxGame extends ApplicationAdapter {
 			levelOver.initialize(playedLevel, won);
 		} break;
 		default:
-			;
-		}
+        }
 
 	}
 	private int readFromUnlockedLevelsFile() {
-		
-		
-		
+
 		String userDirectory = System.getProperty("user.home");
 		Path pathToSaveGameFile = Paths.get(userDirectory, "DarkPyramidSaveGameFile.txt");
 		try {
-			if(!Files.deleteIfExists(pathToSaveGameFile)) {
+            if (!Files.exists(pathToSaveGameFile)) {
 				System.out.println("Does not exist");
 				BufferedWriter writer = null;
 				try{
