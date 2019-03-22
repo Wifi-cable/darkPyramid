@@ -23,7 +23,7 @@ public class LevelUI implements UIinterface {
 
 	public LevelUI() {
 		healthbar = new Healthbar();
-        pauseButton = new SimpleButton(0.83f, 0.93f, 0.15f, 0.05f, TextureLoader.pauseButton);
+        pauseButton = new SimpleButton(0.83f, 0.94f, 0.15f, 0.05f, TextureLoader.pauseButton);
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.update();
@@ -81,8 +81,11 @@ public class LevelUI implements UIinterface {
         if (seconds < 10)
             s = "0" + s;
 		pauseButton.render(batch);
-		com.mygdx.game.MyGdxGame.font.draw(batch, "Level " + currentLevel + "   " + minutes + ":" + seconds, 10,
-				Gdx.graphics.getHeight() - 10);
+		com.mygdx.game.MyGdxGame.font.draw(
+				batch,
+				"Level  " + currentLevel + "     Time Left:  " + min + ":" + s + "     Health: ",
+				10,
+				720);
 		healthbar.render(batch);
 	}
 
@@ -107,9 +110,8 @@ public class LevelUI implements UIinterface {
 
 	private class Healthbar {
 		int count;
-		float x = 200;
+		float x = 500;
 		float y = Gdx.graphics.getHeight() - 40;
-//		Texture heart = new Texture(Gdx.files.internal("UIelements/pixelHeart.png"));
 		Sprite heartSprite;
 
 		public Healthbar() {

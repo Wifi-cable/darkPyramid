@@ -207,7 +207,7 @@ public class MyGdxGame extends ApplicationAdapter {
 				} catch (Exception e) {
 					e.printStackTrace();
 					writer.close();
-				} 
+				}
 			}
 
 			// System.out.println(userDirectory);
