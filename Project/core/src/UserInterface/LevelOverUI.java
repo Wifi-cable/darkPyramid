@@ -76,8 +76,9 @@ public class LevelOverUI implements UIinterface {
 		}
 	}
 	public static void writeUnlockedLevelToFile(int unlockedLevel){	
-		String userDirectory = System.getProperty("user.home");
-		Path pathToSaveGameFile = Paths.get(userDirectory, "Documents", "DarkPyramid", "SaveState", "DarkPyramidSaveGameFile.txt");
+		String userDirectory = System.getProperty("user.dir");
+//		Path pathToSaveGameFile = Paths.get(userDirectory, "Documents", "DarkPyramid", "SaveState", "DarkPyramidSaveGameFile.txt");
+		Path pathToSaveGameFile = Paths.get(userDirectory,"DarkPyramidSaveGameFile.txt");
 		String outputToFile = "" + unlockedLevel;
 		BufferedWriter writer = null;
 		try{
