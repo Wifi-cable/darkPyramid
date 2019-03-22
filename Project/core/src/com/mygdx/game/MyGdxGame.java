@@ -180,9 +180,10 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	private int readFromUnlockedLevelsFile() {
 
-		String userDirectory = System.getProperty("user.home");
-		Path pathToSaveGameFile = Paths.get(userDirectory, "Documents", "DarkPyramid");
-
+		String userDirectory = System.getProperty("user.dir");
+//		Path pathToSaveGameFile = Paths.get(userDirectory, "Documents", "DarkPyramid");
+		Path pathToSaveGameFile = Paths.get(userDirectory, "DarkPyramidSaveGameFile.txt");
+/*
 		if (Files.notExists(pathToSaveGameFile)) {
 			try {
 				Files.createDirectory(pathToSaveGameFile);
@@ -195,12 +196,14 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		Path pathToSaveGameFile2 = Paths.get(userDirectory, "Documents", "DarkPyramid", "SaveState",
 				"DarkPyramidSaveGameFile.txt");
-
+*/
 		try {
-			if (!Files.exists(pathToSaveGameFile2)) {
+//			if (!Files.exists(pathToSaveGameFile2)) {
+			if(!Files.exists(pathToSaveGameFile)) {
 				BufferedWriter writer = null;
 				try {
-					writer = new BufferedWriter(new FileWriter(pathToSaveGameFile2.toString()));
+//					writer = new BufferedWriter(new FileWriter(pathToSaveGameFile2.toString()));
+					writer = new BufferedWriter(new FileWriter(pathToSaveGameFile.toString()));
 					writer.write("1");
 					writer.flush();
 					writer.close();
@@ -212,7 +215,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
 			// System.out.println(userDirectory);
 
-			File file = pathToSaveGameFile2.toFile();
+//			File file = pathToSaveGameFile2.toFile();
+			File file = pathToSaveGameFile.toFile();
 			BufferedReader bufferedReader = null;
 			try {
 				bufferedReader = new BufferedReader(new FileReader(file));
